@@ -1,10 +1,10 @@
 package com.example.restapi_vr.simulator.DTO;
 
-public class PumpDTO {
+public class Pump_DTO {
     private int rpm;
     private boolean operational;
 
-    public PumpDTO(int rpm, boolean operational) {
+    public Pump_DTO(int rpm, boolean operational) {
         this.rpm = rpm;
         this.operational = operational;
     }

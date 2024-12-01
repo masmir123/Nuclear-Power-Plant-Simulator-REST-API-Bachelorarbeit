@@ -4,7 +4,13 @@ package com.example.restapi_vr.simulator;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+
+import com.example.restapi_vr.simulator.DTO.*;
+import com.example.restapi_vr.simulator.component.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -14,17 +20,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import org.simulator.component.Component;
-import org.simulator.component.Condenser;
-import org.simulator.component.Generator;
-import org.simulator.component.Pump;
-import org.simulator.component.Reactor;
-import org.simulator.component.SteamValve;
-import org.simulator.component.Turbine;
-import org.simulator.component.WaterValve;
-
 @Path("/npp")
 public class NPPSystemInterface implements Runnable {
+
+    private Instant startDate;
 
     private Thread nppSimulatorThread = null;
 
@@ -96,6 +95,11 @@ public class NPPSystemInterface implements Runnable {
 
         STATE = normalState;
         tempTime = System.currentTimeMillis();
+
+        // Save Date since simulation starts
+        startDate = Instant.now();
+
+
         start();
         automation = new NPPAutomation(this);
         automation.start();
@@ -356,18 +360,16 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the status of a steam valve",
             description = "Retrieves the status of a specified steam valve by ID.")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Valve status retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = Boolean.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of Valve status failed"),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Invalid valve ID")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Valve status retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Boolean.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of Valve status failed")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Invalid valve ID")
     public Response getValveStatus(@PathParam("id") int id) {
         boolean status;
         switch (id) {
@@ -386,18 +388,16 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the status of a pump",
             description = "Retrieves the status of a specified pump by ID.")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Pump status retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = Pump_DTO.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of Pump status failed"),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Invalid pump ID")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Pump status retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Pump_DTO.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of Pump status failed")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Invalid pump ID")
     public Response getPumpStatus(@PathParam("id") int id) {
         Pump pump;
         switch (id) {
@@ -407,7 +407,7 @@ public class NPPSystemInterface implements Runnable {
                 return Response.status(Response.Status.NOT_FOUND).entity("Invalid pump ID").build();
             }
         }
-        return Response.ok(new PumpDTO(pump.getRPM(), !pump.isBlown())).build();
+        return Response.ok(new Pump_DTO(pump.getRPM(), !pump.isBlown())).build();
     }
 
     @GET
@@ -416,15 +416,13 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the status of the generator",
             description = "Retrieves the current power output of the generator.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Generator status retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = Integer.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of Generator status failed")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Generator status retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Integer.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of Generator status failed")
     public Response getGeneratorStatus() {
         int power = generator.getPower();
         return Response.ok(power).build();
@@ -436,17 +434,15 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the status of the condenser",
             description = "Retrieves the current status of the condenser.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Condenser status retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = Condenser_DTO.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of Condenser status failed")
-    })
-    public Response getCondenserStatus() {
-        return Response.ok(new CondenserDTO(condenser.getPressure(), condenser.getWaterLevel(), !condenser.isBlown())).build();
+    @ApiResponse(
+            responseCode = "200",
+            description = "Condenser status retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Condenser_DTO.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of Condenser status failed")
+    public Response getCondenserStatus_API() {
+        return Response.ok(new Condenser_DTO(condenser.getPressure(), condenser.getWaterLevel(), !condenser.isBlown())).build();
     }
 
     @GET
@@ -455,17 +451,15 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the status of the reactor",
             description = "Retrieves the current status of the reactor.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Reactor status retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = Reactor_DTO.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of Reactor status failed")
-    })
-    public Response getReactorStatus() {
-        return Response.ok(new ReactorDTO(reactor.getPressure(), reactor.getWaterLevel(), !reactor.isOverheated(), !reactor.isBlown())).build();
+    @ApiResponse(
+            responseCode = "200",
+            description = "Reactor status retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Reactor_DTO.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of Reactor status failed")
+    public Response getReactorStatus_API() {
+        return Response.ok(new Reactor_DTO(reactor.getPressure(), reactor.getWaterLevel(), !reactor.isOverheated(), !reactor.isBlown())).build();
     }
 
     @GET
@@ -474,18 +468,16 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get the overall health of the system",
             description = "Checks the overall health status of the NPP system.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "System health retrieved successfully",
-                    content = @Content(schema = @Schema(implementation = SystemHealth_DTO.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving of System health failed")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "System health retrieved successfully",
+            content = @Content(schema = @Schema(implementation = SystemHealth_DTO.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving of System health failed")
     public Response getSystemHealth() {
         boolean overallStatus = !reactor.isBlown() && !condenser.isBlown() && !WP1.isBlown() && !WP2.isBlown();
-        return Response.ok(new SystemHealthDTO(overallStatus)).build();
+        return Response.ok(new SystemHealth_DTO(overallStatus)).build();
     }
 
     @GET
@@ -494,22 +486,20 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get an array of all components and their attributes",
             description = "Checks all Components individually and adds them to an array.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Data of all Components retrieved successfully",
-                    content = @Content(schema = @Schema(implementaion = Components_DTO.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving Data of all Components failed")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Data of all Components retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Components_DTO.class)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving Data of all Components failed")
     public Response getComponents(){
         try {
             /* Building Array for Data of all Components */
-            List<ComponentsDTO> components = new ArrayList<>();
+            List<Components_DTO> components = new ArrayList<>();
 
             // Data of Reactor
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Reactor",
                     reactor.getPressure(),
                     reactor.getWaterLevel(),
@@ -519,7 +509,7 @@ public class NPPSystemInterface implements Runnable {
             ));
 
             // Data of Steam Valves
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Steam Valve 1",
                     -1,
                     -1,
@@ -527,7 +517,7 @@ public class NPPSystemInterface implements Runnable {
                     true,
                     true
             ));
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Steam Valve 2",
                     -1,
                     -1,
@@ -537,7 +527,7 @@ public class NPPSystemInterface implements Runnable {
             ));
 
             // Data of Pumps
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Pump 1",
                     -1,
                     -1,
@@ -545,7 +535,7 @@ public class NPPSystemInterface implements Runnable {
                     true,
                     true
             ));
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Pump 2",
                     -1,
                     -1,
@@ -553,7 +543,7 @@ public class NPPSystemInterface implements Runnable {
                     true,
                     true
             ));
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Cooling Pump",
                     -1,
                     -1,
@@ -563,7 +553,7 @@ public class NPPSystemInterface implements Runnable {
             ));
 
             // Data of Condenser
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Condenser",
                     condenser.getPressure(),
                     condenser.getWaterLevel(),
@@ -573,7 +563,7 @@ public class NPPSystemInterface implements Runnable {
             ));
 
             // Data of Generator
-            components.add(new ComponentsDTO(
+            components.add(new Components_DTO(
                     "Generator",
                     generator.getPower(),
                     -1,
@@ -597,16 +587,14 @@ public class NPPSystemInterface implements Runnable {
     @Operation(
             summary = "Get information about the Server and the simulation",
             description = "Checks the current status of the server and simulation. Additionally if its running, it puts out the date since when its running.")
-    @ApiResponse({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Data of Server and simulation retrieved successfully"),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Retrieving Data of Server and simulation failed")
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Data of Server and simulation retrieved successfully")
+    @ApiResponse(
+            responseCode = "400",
+            description = "Retrieving Data of Server and simulation failed")
     public Response getStatus() {
-        return Response.ok(this.isSimulationRunning(),/* Missing Implementation since when the simulation is running */).build();
+        return Response.ok(this.isSimulationRunning(),startDate.toString()).build();
     }
 
 

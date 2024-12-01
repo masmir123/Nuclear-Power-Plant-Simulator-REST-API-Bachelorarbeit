@@ -1,9 +1,9 @@
 package com.example.restapi_vr.simulator.DTO;
 
-public class SystemHealthDTO {
+public class SystemHealth_DTO {
     private boolean healthy;
 
-    public SystemHealthDTO(boolean healthy) {
+    public SystemHealth_DTO(boolean healthy) {
         this.healthy = healthy;
     }
 

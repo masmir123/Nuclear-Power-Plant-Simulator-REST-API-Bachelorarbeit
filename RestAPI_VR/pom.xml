@@ -12,12 +12,14 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>14</maven.compiler.target>
+    <maven.compiler.source>14</maven.compiler.source>
     <junit.version>5.10.0</junit.version>
   </properties>
 
   <dependencies>
+
+      <!-- JAX-RS -->
     <dependency>
       <groupId>jakarta.enterprise</groupId>
       <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -37,24 +39,73 @@
       <scope>provided</scope>
     </dependency>
       <dependency>
+          <groupId>io.swagger.core.v3</groupId>
+          <artifactId>swagger-core</artifactId>
+          <version>2.2.14</version>
+      </dependency>
+      <dependency>
+          <groupId>io.swagger.core.v3</groupId>
+          <artifactId>swagger-jaxrs2</artifactId>
+          <version>2.2.14</version>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.microprofile.openapi</groupId>
+          <artifactId>microprofile-openapi-api</artifactId>
+          <version>3.1</version>
+      </dependency>
+
+      <!-- Jetty for the HTTP server -->
+      <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-server</artifactId>
-          <version>11.0.15</version>
+          <version>11.0.22</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.containers</groupId>
+          <artifactId>jersey-container-servlet</artifactId>
+          <version>3.1.2</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-common</artifactId>
+          <version>3.1.2</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-server</artifactId>
+          <version>3.1.2</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.inject</groupId>
+          <artifactId>jersey-hk2</artifactId>
+          <version>3.1.2</version>
+      </dependency>
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>webjars-locator</artifactId>
+          <version>0.52</version>
       </dependency>
       <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-servlet</artifactId>
-          <version>11.0.15</version>
+          <version>11.0.22</version>
       </dependency>
       <dependency>
           <groupId>io.swagger.core.v3</groupId>
           <artifactId>swagger-annotations</artifactId>
           <version>2.2.14</version>
       </dependency>
+
+      <!-- Jackson for JSON handling -->
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>2.15.2</version>
+      </dependency>
       <dependency>
           <groupId>org.webjars</groupId>
           <artifactId>swagger-ui</artifactId>
-          <version>5.3.0</version>
+          <version>5.14.0</version>
       </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -67,7 +118,21 @@
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
-      </dependency>  </dependencies>
+      </dependency>
+
+      <!-- SLF4J for logging -->
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>2.0.7</version>
+      </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+          <version>2.0.7</version>
+      </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>
@@ -75,6 +140,38 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
-      </plugin>    </plugins>
+    <configuration>
+        <archive>
+            <manifestEntries>
+                <Main-Class>com.example.restapi_vr.base.HelloApplication</Main-Class> <!-- Deine Hauptklasse -->
+            </manifestEntries>
+        </archive>
+    </configuration>
+      </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.12.0</version>
+            <configuration>
+                <source>14</source>
+                <target>14</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.3.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                    <configuration>
+                        <mainClass>com.example.restapi_vr.base.HelloApplication</mainClass> <!-- Deine Hauptklasse -->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
   </build>
 </project>

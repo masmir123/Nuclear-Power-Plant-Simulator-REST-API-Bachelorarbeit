@@ -15,7 +15,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.simulator.NPPSystemInterface;
+import com.example.restapi_vr.simulator.NPPSystemInterface;
 //import java.util.HashMap;
 
 public class NPPUI {

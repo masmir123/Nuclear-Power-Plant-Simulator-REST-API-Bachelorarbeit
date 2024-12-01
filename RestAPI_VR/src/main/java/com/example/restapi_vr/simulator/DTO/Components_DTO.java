@@ -1,6 +1,6 @@
 package com.example.restapi_vr.simulator.DTO;
 
-public class ComponentsDTO {
+public class Components_DTO {
     private String componentName;
     private float pressure;
     private float waterLevel;
@@ -8,7 +8,7 @@ public class ComponentsDTO {
     private boolean intact;
     private boolean interactable;
 
-    public ComponentsDTO(String componentName, float pressure, float waterLevel, boolean operational, boolean intact, boolean interactable) {
+    public Components_DTO(String componentName, float pressure, float waterLevel, boolean operational, boolean intact, boolean interactable) {
         this.componentName = componentName;
         this.pressure = pressure;
         this.waterLevel = waterLevel;
