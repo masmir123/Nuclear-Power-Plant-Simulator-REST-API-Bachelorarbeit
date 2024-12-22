@@ -13,14 +13,13 @@ import de.uni_trier.restapi_vr.simulator.component.*;
 
 import jakarta.ws.rs.*;
 
-@Path("/npp")
 public class NPPSystemInterface implements Runnable {
 
     private Instant startDate;
 
     private Thread nppSimulatorThread = null;
 
-    private NPPAutomation automation;
+    //private NPPAutomation automation;
 
     private Reactor reactor;
     private SteamValve SV1, SV2;
@@ -102,8 +101,8 @@ public class NPPSystemInterface implements Runnable {
 
 
         start();
-        automation = new NPPAutomation(this);
-        automation.start();
+        //automation = new NPPAutomation(this);
+        //automation.start();
 
     }
 

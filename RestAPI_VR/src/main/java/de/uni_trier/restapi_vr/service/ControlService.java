@@ -46,7 +46,6 @@ public class ControlService {
         }
 
         try {
-
             nppSystemInterface.setControlRodExposure(setRod);
         } catch (Exception e) {
             throw new RuntimeException("Failed to set rod exposure: " + e.getMessage());

@@ -1,4 +1,4 @@
-package de.uni_trier.restapi_vr.simulator;
+/*package de.uni_trier.restapi_vr.simulator;
 
 public class NPPAutomation implements Runnable {
 
@@ -127,3 +127,4 @@ public class NPPAutomation implements Runnable {
     }
 
 }
+*/

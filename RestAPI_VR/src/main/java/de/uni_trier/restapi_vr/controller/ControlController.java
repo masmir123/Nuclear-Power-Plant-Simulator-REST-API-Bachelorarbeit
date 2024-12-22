@@ -108,7 +108,7 @@ public class ControlController {
             @ApiResponse(responseCode = "400", description = "Invalid request. Rod exposure must be between 0 and 100"),
             @ApiResponse(responseCode = "500", description = "Problem with Server")
     })
-    @POST
+    @PUT
     @Path("/rods")
     @Produces(MediaType.APPLICATION_JSON)
     public void setRodExposure(@QueryParam("setRod") int setRod, @Suspended final AsyncResponse response) {

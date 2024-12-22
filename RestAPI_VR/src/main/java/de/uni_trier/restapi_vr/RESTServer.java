@@ -29,10 +29,7 @@ public class RESTServer
     private static final String CONTEXTROOT = "/";
 
     public static void main( String[] args ) {
-
         new NPPUI();
-
-
         startServer();
     }
 

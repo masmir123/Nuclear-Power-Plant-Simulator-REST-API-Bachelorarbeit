@@ -36,6 +36,7 @@ public class SystemService {
 
     public void restartSimulation() {
         try {
+            //TODO: Implement restartSimulation + Reset state automata
             nppSystemInterface.restartSimulation();
         } catch (Exception e) {
             throw new RuntimeException("Failed to restart simulation: " + e.getMessage());

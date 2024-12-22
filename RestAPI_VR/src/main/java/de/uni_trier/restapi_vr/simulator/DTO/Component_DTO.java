@@ -1,5 +1,7 @@
 package de.uni_trier.restapi_vr.simulator.DTO;
 
+
+
 public class Component_DTO {
 
     private String name;

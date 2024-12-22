@@ -32,9 +32,9 @@ public class RESTApplication extends Application {
 
         OpenAPI oas = new OpenAPI();
         Info info = new Info()
-                .title("Test REST API")
-                .description("This is a test API Server with swagger integration")
-                .version("1.0");
+                .title("NPP-Simulator_API")
+                .version("1.0")
+                .description("API for simulating and managing a Nuclear Power Plant system.");
         oas.info(info);
 
         SwaggerConfiguration swaggerConfig =
@@ -65,10 +65,14 @@ public class RESTApplication extends Application {
         resources.add(SystemController.class);
         resources.add(ControlController.class);
         resources.add(SimulationController.class);
-        resources.add(JacksonJsonProvider.class);
 
         // Register OpenApiResource
         resources.add(OpenApiResource.class);
+
+        // Add other resources
+        resources.add(JacksonJsonProvider.class);
+
         return resources;
     }
+
 }

@@ -1,6 +1,5 @@
 package de.uni_trier.restapi_vr.controller;
 
-import de.uni_trier.restapi_vr.service.ControlService;
 import de.uni_trier.restapi_vr.simulator.DTO.*;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;

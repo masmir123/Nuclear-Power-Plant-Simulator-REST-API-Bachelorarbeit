@@ -1,5 +1,6 @@
 package de.uni_trier.restapi_vr.simulator.DTO;
 
+
 public class Generator_DTO {
 
     private String name;
@@ -23,5 +24,6 @@ public class Generator_DTO {
     public boolean isBlown() {
         return blown;
     }
+
 
 }
