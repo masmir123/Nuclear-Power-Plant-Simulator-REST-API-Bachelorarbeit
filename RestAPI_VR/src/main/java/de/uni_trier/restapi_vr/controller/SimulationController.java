@@ -186,7 +186,7 @@ public class SimulationController {
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                List<Component_DTO> components = simulationService.getComponentsHealth();
+                List<Components_DTO> components = simulationService.getComponentsHealth();
                 response.resume(Response.ok(components).build());
             } catch (IllegalArgumentException e) {
                 response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());

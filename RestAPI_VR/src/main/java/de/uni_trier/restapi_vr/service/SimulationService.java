@@ -43,7 +43,7 @@ public class SimulationService {
         return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getOverheatedStatus());
     }
 
-    public List<Component_DTO> getComponentsHealth() {
+    public List<Components_DTO> getComponentsHealth() {
         try {
             return nppSystemInterface.getComponentsHealth();
         } catch (Exception e) {

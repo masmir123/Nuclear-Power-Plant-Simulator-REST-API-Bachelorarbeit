@@ -56,7 +56,7 @@ public class RESTApplication extends Application {
             e.printStackTrace();
         }
     }
-    
+
 
     @Override
     public Set<Class<?>> getClasses() {
