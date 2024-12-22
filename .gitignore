@@ -22,3 +22,6 @@ buildNumber.properties
 
 # Thumbnails
 ._*
+
+.idea
+*.iml
