@@ -7,6 +7,8 @@ public class Generator_DTO {
     private boolean blown;
     private int power;
 
+    public Generator_DTO() {}
+
     public Generator_DTO(String name, boolean blown, int power) {
         this.name = name;
         this.blown = blown;

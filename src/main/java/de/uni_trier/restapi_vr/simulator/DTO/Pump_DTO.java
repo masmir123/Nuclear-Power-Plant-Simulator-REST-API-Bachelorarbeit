@@ -8,6 +8,8 @@ public class Pump_DTO {
     private int maxRpm;
     private boolean operational;
 
+    public Pump_DTO() {}
+
     public Pump_DTO(int rpm, boolean operational) {
         this.rpm = rpm;
         this.operational = operational;

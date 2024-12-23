@@ -7,6 +7,7 @@ public class Components_DTO {
     private boolean overheated;
     private boolean broken;
 
+    public Components_DTO(){}
 
     public Components_DTO(String name, boolean broken) {
         this.name = name;

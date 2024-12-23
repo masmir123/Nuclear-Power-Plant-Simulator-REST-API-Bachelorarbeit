@@ -5,6 +5,9 @@ public class Valve_DTO {
     private boolean blown;
     private boolean status;
 
+    public Valve_DTO() {
+    }
+
     public Valve_DTO(String name, boolean blown, boolean status) {
         this.name = name;
         this.blown = blown;

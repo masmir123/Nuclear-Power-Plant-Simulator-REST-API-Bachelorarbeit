@@ -7,6 +7,9 @@ public class Condenser_DTO {
     private float waterLevel;
     private boolean operational;
 
+    public Condenser_DTO() {
+    }
+
     public Condenser_DTO(float pressure, float waterLevel, boolean operational) {
         this.pressure = pressure;
         this.waterLevel = waterLevel;
