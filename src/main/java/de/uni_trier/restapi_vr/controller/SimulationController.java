@@ -46,11 +46,11 @@ public class SimulationController {
     @GET
     @Path("/valve/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void ValveInfo(@PathParam("id") int id, @Suspended final AsyncResponse response) {
+    public void ValveInfo(@PathParam("id") String id, @Suspended final AsyncResponse response) {
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                Valve_DTO valve = simulationService.getValveStatus(id);
+                Valve_DTO valve = simulationService.getValveStatus(id.toUpperCase());
                 response.resume(Response.ok(valve).build());
             } catch (IllegalArgumentException e) {
                 response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
@@ -74,11 +74,11 @@ public class SimulationController {
     @GET
     @Path("/pump/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void PumpInfo(@PathParam("id") int id, @Suspended final AsyncResponse response) {
+    public void PumpInfo(@PathParam("id") String id, @Suspended final AsyncResponse response) {
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                Pump_DTO pump = simulationService.getPumpStatus(id);
+                Pump_DTO pump = simulationService.getPumpStatus(id.toUpperCase());
                 response.resume(Response.ok(pump).build());
             } catch (IllegalArgumentException e) {
                 response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());

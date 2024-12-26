@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,6 +30,11 @@ public class SimulationTest {
     private static Dispatcher dispatcher;
     private static SynchronousExecutionContext se;
     private static NPPSystemInterface nppSystemInterface;
+    /**
+     * List of valid valve and pump ids
+     */
+    private static final String[] VALVES = {"SV1", "SV2", "WV1", "WV2"};
+    private static final String[] PUMPS = {"WP1", "WP2", "CP"};
 
     @BeforeAll
     public static void setUpTestSpace() {
@@ -49,7 +55,7 @@ public class SimulationTest {
     @Test
     public void testCondenserOutput() throws Exception {
         MockHttpRequest request = MockHttpRequest.get("/simulation/condenser");
-        request.accept(MediaType.WILDCARD);
+        request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
         MockHttpResponse response = new MockHttpResponse();
 
@@ -57,18 +63,19 @@ public class SimulationTest {
         request.setAsynchronousContext(se);
         dispatcher.invoke(request, response);
 
+        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
+
         Condenser_DTO condenser = new ObjectMapper().readValue(response.getContentAsString(), Condenser_DTO.class);
 
-        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-        assertEquals(0, condenser.getPressure());
-        assertEquals(4000, condenser.getWaterLevel());
-        assertTrue(condenser.isOperational());
+        assertEquals(0, condenser.getPressure(), "Parameter: pressure");
+        assertEquals(4000, condenser.getWaterLevel(), "Parameter: waterLevel");
+        assertTrue(condenser.isOperational(), "Parameter: operational");
     }
 
     @Test
     public void testGeneratorOutput() throws Exception {
         MockHttpRequest request = MockHttpRequest.get("/simulation/generator");
-        request.accept(MediaType.WILDCARD);
+        request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
         MockHttpResponse response = new MockHttpResponse();
 
@@ -76,17 +83,18 @@ public class SimulationTest {
         request.setAsynchronousContext(se);
         dispatcher.invoke(request, response);
 
+        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
+
         Generator_DTO generator = new ObjectMapper().readValue(response.getContentAsString(), Generator_DTO.class);
 
-        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-        assertEquals(0, generator.getPower());
-        assertFalse(generator.isBlown());
+        assertEquals(0, generator.getPower(), "Parameter: power");
+        assertFalse(generator.isBlown(), "Parameter: blown");
     }
 
     @Test
     public void testReactorOutput() throws Exception {
         MockHttpRequest request = MockHttpRequest.get("/simulation/reactor");
-        request.accept(MediaType.WILDCARD);
+        request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
         MockHttpResponse response = new MockHttpResponse();
 
@@ -94,22 +102,23 @@ public class SimulationTest {
         request.setAsynchronousContext(se);
         dispatcher.invoke(request, response);
 
+        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
+
         Reactor_DTO reactor = new ObjectMapper().readValue(response.getContentAsString(), Reactor_DTO.class);
 
-        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-        assertEquals(0, reactor.getPressure());
-        assertEquals(2000, reactor.getWaterLevel());
-        assertTrue(reactor.isOperational());
-        assertTrue(reactor.isIntact());
+        assertEquals(0, reactor.getPressure(), "Parameter: pressure");
+        assertEquals(2000, reactor.getWaterLevel(), "Parameter: waterLevel");
+        assertFalse(reactor.isOperational(), "Parameter: operational");
+        assertTrue(reactor.isIntact(),"Parameter: intact");
     }
-
 
     @Test
     public void testPumpOutput() throws Exception {
-        //TODO: Test CP + Test invalid query param input
-        for (int i = 1; i <= 2; i++) {
-            MockHttpRequest request = MockHttpRequest.get("/simulation/pump/" + i);
-            request.accept(MediaType.WILDCARD);
+        final String[] testPumps = {"WP1", "WP2", "CP", "WP3", "WP4"};
+
+        for (String p : testPumps) {
+            MockHttpRequest request = MockHttpRequest.get("/simulation/pump/" + p);
+            request.accept(MediaType.APPLICATION_JSON);
             request.contentType(MediaType.APPLICATION_JSON);
             MockHttpResponse response = new MockHttpResponse();
 
@@ -117,24 +126,29 @@ public class SimulationTest {
             request.setAsynchronousContext(se);
             dispatcher.invoke(request, response);
 
-            Pump_DTO pump = new ObjectMapper().readValue(response.getContentAsString(), Pump_DTO.class);
+            if (Arrays.asList(PUMPS).contains(p)) {
+                assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
 
-            assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-            assertEquals("WP" + i, pump.getName());
-            assertEquals(0, pump.getRpm());
-            assertEquals(0, pump.getSetRpm());
-            assertEquals(2000, pump.getMaxRpm());
-            assertFalse(pump.isBlown());
-            assertTrue(pump.isOperational());
+                Pump_DTO pump = new ObjectMapper().readValue(response.getContentAsString(), Pump_DTO.class);
+
+                assertEquals(pump.getName(), p);
+                assertEquals(0, pump.getRpm(), "Parameter: rpm");
+                assertEquals(0, pump.getSetRpm(), "Parameter: setRpm");
+                assertEquals(2000, pump.getMaxRpm(), "Parameter: maxRpm");
+                assertFalse(pump.isBlown());
+            } else {
+                assertEquals(HttpResponseCodes.SC_BAD_REQUEST, response.getStatus(), "Invalid request or query parameter");
+            }
         }
     }
 
     @Test
     public void testValveOutput() throws Exception {
-        //TODO Test WV + test invalid query param input
-        for (int i = 1; i <= 2; i++) {
-            MockHttpRequest request = MockHttpRequest.get("/simulation/valve/" + i);
-            request.accept(MediaType.WILDCARD);
+        final String[] testValves = {"SV1", "SV2", "WV1", "WV2", "SV3", "WV1"};
+
+        for (String v : testValves) {
+            MockHttpRequest request = MockHttpRequest.get("/simulation/valve/" + v);
+            request.accept(MediaType.APPLICATION_JSON);
             request.contentType(MediaType.APPLICATION_JSON);
             MockHttpResponse response = new MockHttpResponse();
 
@@ -142,20 +156,24 @@ public class SimulationTest {
             request.setAsynchronousContext(se);
             dispatcher.invoke(request, response);
 
-            Valve_DTO valve = new ObjectMapper().readValue(response.getContentAsString(), Valve_DTO.class);
+            if (Arrays.asList(VALVES).contains(v)) {
+                assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
 
-            assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-            assertEquals(valve.getName(), "SV" + i);
-            assertFalse(valve.isStatus());
-            assertFalse(valve.isBlown());
+                Valve_DTO valve = new ObjectMapper().readValue(response.getContentAsString(), Valve_DTO.class);
 
+                assertEquals(valve.getName(), v, "Parameter: name");
+                assertFalse(valve.isStatus(), "Parameter: status");
+                assertFalse(valve.isBlown(), "Parameter: blown");
+            } else {
+                assertEquals(HttpResponseCodes.SC_BAD_REQUEST, response.getStatus());
+            }
         }
     }
 
     @Test
     public void testHealthOutput() throws Exception {
         MockHttpRequest request = MockHttpRequest.get("/simulation/health");
-        request.accept(MediaType.WILDCARD);
+        request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
         MockHttpResponse response = new MockHttpResponse();
 
@@ -163,17 +181,18 @@ public class SimulationTest {
         request.setAsynchronousContext(se);
         dispatcher.invoke(request, response);
 
+        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
+
         ObjectMapper objectMapper = new ObjectMapper();
         List<Components_DTO> results = objectMapper.readValue(response.getContentAsString(),
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Components_DTO.class));
 
-        assertEquals(HttpResponseCodes.SC_OK, response.getStatus());
-        assertEquals(results.size(), nppSystemInterface.getComponents().size());
+        assertEquals(results.size(), nppSystemInterface.getComponents().size(), "Number of components");
         for (Components_DTO result : results) {
             logger.info(result.getName() + " " + result.isBroken());
-            assertNotNull(result.getName());
-            assertNotEquals( 0, result.getName().length());
-            assertFalse(result.isBroken());
+            assertNotNull(result.getName(), "Parameter: name");
+            assertNotEquals( 0, result.getName().length(), "Parameter: name");
+            assertFalse(result.isBroken(),  "Parameter: broken");
         }
     }
 }

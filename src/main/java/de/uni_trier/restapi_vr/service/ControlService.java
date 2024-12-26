@@ -4,6 +4,8 @@ import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 
+import java.util.Optional;
+
 public class ControlService {
 
     private NPPSystemInterface nppSystemInterface;
@@ -13,31 +15,23 @@ public class ControlService {
     }
 
 
-    public Valve_DTO updateValveStatus(int id, boolean activate) {
+    public Valve_DTO updateValveStatus(String id, boolean activate) {
 
-        boolean status = nppSystemInterface.updateWaterValveStatus(id, activate);
+        nppSystemInterface.updateValveStatus(id, activate);
 
-        return switch (id) {
-            case 1 -> new Valve_DTO("WV1", status);
-            case 2 -> new Valve_DTO("WV2", status);
-            default -> throw new IllegalStateException("Unexpected value: " + id);
-        };
-
+        return Optional.ofNullable(nppSystemInterface.getValves().get(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid valve ID " + id));
     }
 
-    public Pump_DTO updatePumpStatus(int id, int setRpm) {
+    public Pump_DTO updatePumpStatus(String id, int setRpm) {
         if (setRpm < 0) {
             throw new IllegalArgumentException("Invalid RPM value. Must be greater than or equal to 0.");
         }
 
+        nppSystemInterface.updatePumpRpm(id, setRpm);
 
-        int updatedRpm = nppSystemInterface.updatePumpRpm(id, setRpm);
-
-        return switch (id) {
-            case 1 -> new Pump_DTO("WV1", updatedRpm);
-            case 2 -> new Pump_DTO("WV2", updatedRpm);
-            default -> throw new IllegalStateException("Unexpected value: " + id);
-        };
+        return Optional.ofNullable(nppSystemInterface.getPumps().get(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid pump ID " + id));
     }
 
     public void setRodExposure(int setRod) {

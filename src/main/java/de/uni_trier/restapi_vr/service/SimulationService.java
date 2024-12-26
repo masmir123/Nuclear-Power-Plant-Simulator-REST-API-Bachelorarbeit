@@ -5,6 +5,7 @@ import de.uni_trier.restapi_vr.simulator.DTO.*;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SimulationService {
 
@@ -15,20 +16,14 @@ public class SimulationService {
     }
 
 
-    public Valve_DTO getValveStatus(int id) {
-        return switch (id) {
-            case 1 -> new Valve_DTO("SV1", nppSystemInterface.getSV1_BlownStatus(), nppSystemInterface.getSV1Status());
-            case 2 -> new Valve_DTO("SV2", nppSystemInterface.getSV2_BlownStatus(), nppSystemInterface.getSV2Status());
-            default -> throw new IllegalArgumentException("Invalid valve ID");
-        };
+    public Valve_DTO getValveStatus(String id) {
+        return Optional.ofNullable(nppSystemInterface.getValves().get(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid valve ID " + id));
     }
 
-    public Pump_DTO getPumpStatus(int id) {
-        return switch (id) {
-            case 1 -> new Pump_DTO("WP1", nppSystemInterface.getWP1_BlownStatus(), nppSystemInterface.getWP1RPM(), nppSystemInterface.getWP1RPMSet(), nppSystemInterface.getWP1RPMSet());
-            case 2 -> new Pump_DTO("WP2", nppSystemInterface.getWP2_BlownStatus(), nppSystemInterface.getWP2RPM(), nppSystemInterface.getWP2RPMSet(), nppSystemInterface.getWP2RPMSet());
-            default -> throw new IllegalArgumentException("Invalid pump ID");
-        };
+    public Pump_DTO getPumpStatus(String id) {
+        return Optional.ofNullable(nppSystemInterface.getPumps().get(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid pump ID " + id));
     }
 
     public Generator_DTO getGeneratorStatus() {

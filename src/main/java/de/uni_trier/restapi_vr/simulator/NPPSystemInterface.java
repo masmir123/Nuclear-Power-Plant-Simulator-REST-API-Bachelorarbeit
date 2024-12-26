@@ -4,15 +4,15 @@ package de.uni_trier.restapi_vr.simulator;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import de.uni_trier.restapi_vr.simulator.DTO.Component_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Components_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.component.*;
 
-import jakarta.ws.rs.*;
 
 public class NPPSystemInterface implements Runnable {
 
@@ -355,33 +355,36 @@ public class NPPSystemInterface implements Runnable {
      */
 
     // Update Function for WV by ID
-    public boolean updateWaterValveStatus(int id, boolean activate) {
+    public void updateValveStatus(String id, boolean activate) {
         switch (id) {
-            case 1 -> {
+            case "SV1" -> {
                 SV1.setStatus(activate);
-                return SV1.getStatus();
             }
-            case 2 -> {
+            case "SV2" -> {
                 SV2.setStatus(activate);
-                return SV2.getStatus();
             }
-            default -> throw new IllegalArgumentException("Invalid valve ID");
+            case "WV1" -> {
+                WV1.setStatus(activate);
+            }
+            case "WV2" -> {
+                WV2.setStatus(activate);
+            }
         }
     }
 
 
     // UpdateRpm Function for Pump by ID
-    public int updatePumpRpm(int id, int setRpm) {
+    public void updatePumpRpm(String id, int setRpm) {
         switch (id) {
-            case 1 -> {
+            case "WP1" -> {
                 WP1.setRPM(setRpm);
-                return WP1.getRPM();
             }
-            case 2 -> {
+            case "WP2" -> {
                 WP2.setRPM(setRpm);
-                return WP2.getRPM();
             }
-            default -> throw new IllegalArgumentException("Invalid pump ID");
+            case "CP" -> {
+                CP.setRPM(setRpm);
+            }
         }
     }
 
@@ -419,8 +422,30 @@ public class NPPSystemInterface implements Runnable {
         components.add(new Component_DTO("Generator", generator.isBlown(), false));
 
         return components;
-
     }
+
+    public Map<String, Pump_DTO> getPumps(){
+        Pump_DTO[] pumps = new Pump_DTO[]{
+            new Pump_DTO("WP1", WP1.isBlown(), WP1.getRPM(), WP1.getSetRPMN(), WP1.getMaxRPM()),
+            new Pump_DTO("WP2", WP2.isBlown(), WP2.getRPM(), WP2.getSetRPMN(), WP2.getMaxRPM()),
+            new Pump_DTO("CP", CP.isBlown(), CP.getRPM(), CP.getSetRPMN(), CP.getMaxRPM())
+        };
+
+        return Arrays.stream(pumps).collect(Collectors.toMap(Pump_DTO::getName, c -> c));
+    }
+
+    public Map<String, Valve_DTO> getValves(){
+        Valve_DTO[] valves = new Valve_DTO[]{
+                new Valve_DTO("SV1", SV1.isBlown(), SV1.getStatus()),
+                new Valve_DTO("SV2", SV2.isBlown(), SV2.getStatus()),
+                new Valve_DTO("WV1", WV1.isBlown(), WV1.getStatus()),
+                new Valve_DTO("WV2", WV2.isBlown(), WV2.getStatus())
+        };
+
+        return Arrays.stream(valves).collect(Collectors.toMap(Valve_DTO::getName, c -> c));
+    }
+
+
 
     // Functions to restart simulation
     public void restartSimulation() {

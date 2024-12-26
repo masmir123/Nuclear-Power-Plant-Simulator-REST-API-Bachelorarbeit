@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.container.AsyncResponse;
 import jakarta.ws.rs.container.Suspended;
@@ -49,14 +48,14 @@ public class ControlController {
     @Path("/valve/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void updateValveStatus(
-            @PathParam("id") int id,
+            @PathParam("id") String id,
             @QueryParam("activate") boolean activate,
             @Suspended final AsyncResponse response) {
 
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                Valve_DTO valve = controlService.updateValveStatus(id, activate);
+                Valve_DTO valve = controlService.updateValveStatus(id.toUpperCase(), activate);
                 response.resume(Response.ok(valve).build());
             } catch (IllegalArgumentException e) {
                 response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
@@ -81,14 +80,14 @@ public class ControlController {
     @Path("/pump/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void updatePumpStatus(
-            @PathParam("id") int id,
+            @PathParam("id") String id,
             @QueryParam("setRpm") int setRpm,
             @Suspended final AsyncResponse response) {
 
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                Pump_DTO pump = controlService.updatePumpStatus(id, setRpm);
+                Pump_DTO pump = controlService.updatePumpStatus(id.toUpperCase(), setRpm);
                 response.resume(Response.ok(pump).build());
             } catch (IllegalArgumentException e) {
                 response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
@@ -117,8 +116,6 @@ public class ControlController {
             try {
                 controlService.setRodExposure(setRod);
                 response.resume(Response.ok().build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
                 response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Problem with Server: " + e.getMessage()).build());
             }
