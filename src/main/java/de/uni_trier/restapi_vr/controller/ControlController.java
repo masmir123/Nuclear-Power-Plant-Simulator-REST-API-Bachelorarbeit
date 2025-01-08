@@ -57,10 +57,8 @@ public class ControlController {
             try {
                 Valve_DTO valve = controlService.updateValveStatus(id.toUpperCase(), activate);
                 response.resume(Response.ok(valve).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Problem with Reactor or Server: " + e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -89,10 +87,8 @@ public class ControlController {
             try {
                 Pump_DTO pump = controlService.updatePumpStatus(id.toUpperCase(), setRpm);
                 response.resume(Response.ok(pump).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Problem with Reactor or Server: " + e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -117,11 +113,9 @@ public class ControlController {
                 controlService.setRodExposure(setRod);
                 response.resume(Response.ok().build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Problem with Server: " + e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
     }
-
-
 }

@@ -52,10 +52,8 @@ public class SimulationController {
             try {
                 Valve_DTO valve = simulationService.getValveStatus(id.toUpperCase());
                 response.resume(Response.ok(valve).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -80,10 +78,8 @@ public class SimulationController {
             try {
                 Pump_DTO pump = simulationService.getPumpStatus(id.toUpperCase());
                 response.resume(Response.ok(pump).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -108,10 +104,8 @@ public class SimulationController {
             try {
                 Generator_DTO generator = simulationService.getGeneratorStatus();
                 response.resume(Response.ok(generator).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -137,7 +131,7 @@ public class SimulationController {
                 Condenser_DTO condenser = simulationService.getCondenserStatus();
                 response.resume(Response.ok(condenser).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -163,7 +157,7 @@ public class SimulationController {
                 Reactor_DTO reactor = simulationService.getReactorStatus();
                 response.resume(Response.ok(reactor).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
@@ -188,17 +182,10 @@ public class SimulationController {
             try {
                 List<Components_DTO> components = simulationService.getComponentsHealth();
                 response.resume(Response.ok(components).build());
-            } catch (IllegalArgumentException e) {
-                response.resume(Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
             } catch (Exception e) {
-                response.resume(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+                response.resume(e);
             }
         });
         executorService.shutdown();
     }
-
-
-
-
-
 }

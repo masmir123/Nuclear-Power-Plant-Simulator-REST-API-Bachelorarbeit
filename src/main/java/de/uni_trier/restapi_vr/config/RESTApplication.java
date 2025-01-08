@@ -5,6 +5,7 @@ import de.uni_trier.restapi_vr.controller.ControlController;
 import de.uni_trier.restapi_vr.controller.SimulationController;
 import de.uni_trier.restapi_vr.controller.SystemController;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
+import io.swagger.v3.jaxrs2.integration.OpenApiServlet;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.integration.OpenApiConfigurationException;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
@@ -71,6 +72,7 @@ public class RESTApplication extends Application {
 
         // Add other resources
         resources.add(JacksonJsonProvider.class);
+        resources.add(RESTExceptionMapper.class);
 
         return resources;
     }
