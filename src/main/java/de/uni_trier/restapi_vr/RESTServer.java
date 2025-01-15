@@ -1,20 +1,17 @@
 package de.uni_trier.restapi_vr;
 
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import de.uni_trier.restapi_vr.config.RESTApplication;
-import de.uni_trier.restapi_vr.controller.ControlController;
-import de.uni_trier.restapi_vr.controller.SimulationController;
-import de.uni_trier.restapi_vr.controller.SystemController;
-import de.uni_trier.restapi_vr.service.ControlService;
-import de.uni_trier.restapi_vr.service.SimulationService;
-import de.uni_trier.restapi_vr.service.SystemService;
-import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 import de.uni_trier.restapi_vr.ui.NPPUI;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -27,15 +24,25 @@ public class RESTServer
 
     private static final String APIPATH = "/api";
     private static final String CONTEXTROOT = "/";
+    private static Logger logger;
+
 
     public static void main( String[] args ) {
-        //new NPPUI();
+        logger = LoggerFactory.getLogger(RESTServer.class);
+        for (String arg : args){
+            if (arg.equalsIgnoreCase("--debug=true")) {
+                LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+                loggerContext.getLogger("ROOT").setLevel(Level.DEBUG);
+                logger.debug("Debug mode enabled");
+                new NPPUI();
+                break;
+            }
+        }
         startServer();
     }
 
     public static void startServer(){
         Server server = new Server(8080);
-
         //Basic Application context at "/"
         ServletContextHandler context = new ServletContextHandler(server, CONTEXTROOT);
 
@@ -57,7 +64,7 @@ public class RESTServer
             server.start();
             server.join();
         } catch (Exception e){
-            e.printStackTrace();
+            logger.error("Cannot start server: ", e);
         }
     }
 }

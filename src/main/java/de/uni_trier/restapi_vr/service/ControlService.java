@@ -1,6 +1,7 @@
 package de.uni_trier.restapi_vr.service;
 
 import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.Reactor_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 
@@ -34,13 +35,14 @@ public class ControlService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid pump ID " + id));
     }
 
-    public void setRodExposure(int setRod) {
+    public Reactor_DTO setRodExposure(int setRod) {
         if (setRod < 0 || setRod > 100) {
             throw new IllegalArgumentException("Rod exposure must be between 0 and 100.");
         }
 
         try {
             nppSystemInterface.setControlRodExposure(setRod);
+            return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getOverheatedStatus());
         } catch (Exception e) {
             throw new RuntimeException("Failed to set rod exposure: " + e.getMessage());
         }

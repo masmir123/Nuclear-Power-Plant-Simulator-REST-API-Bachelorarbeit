@@ -472,16 +472,29 @@ public class NPPSystemInterface implements Runnable {
     public List<Components_DTO> getComponentsHealth() {
         List<Components_DTO> components = new ArrayList<>();
 
+        /*
+        RKS = ReaktorStatus
+        RKT = ReaktorTank
+        KNT = CondenserStatus
+        TBN = Turbine
+        WP1 = WP1
+        WP2 = WP2
+        CP = CoolingPump
+        AU = AtomicStatus
+         */
+
         components.add(new Components_DTO("WV1", WV1.isBlown()));
         components.add(new Components_DTO("WV2", WV2.isBlown()));
         components.add(new Components_DTO("WP1", WP1.isBlown()));
         components.add(new Components_DTO("WP2", WP2.isBlown()));
-        components.add(new Components_DTO("Reactor", reactor.isBlown() || getReactorStatus()));
-        components.add(new Components_DTO("Turbine", turbine.isBlown()));
-        components.add(new Components_DTO("Cooling Pump", CP.isBlown()));
+        components.add(new Components_DTO("RKS", reactor.isBlown()));
+        components.add(new Components_DTO("RKT", !getReactorTankStatus()));
+        components.add(new Components_DTO("TBN", turbine.isBlown()));
+        components.add(new Components_DTO("CP",  CP.isBlown()));
         components.add(new Components_DTO("SV1", SV1.isBlown()));
         components.add(new Components_DTO("SV2", SV2.isBlown()));
-        components.add(new Components_DTO("Condenser", condenser.isBlown()));
+        components.add(new Components_DTO("KNT", condenser.isBlown()));
+        components.add(new Components_DTO("AU",  !getAtomicStatus()));
         components.add(new Components_DTO("Generator", generator.isBlown()));
 
         return components;
@@ -678,6 +691,7 @@ public class NPPSystemInterface implements Runnable {
     public boolean getOverheatedStatus() {
         return reactor.isOverheated();
     }
+
 
 
     private void logSystemState(String info){

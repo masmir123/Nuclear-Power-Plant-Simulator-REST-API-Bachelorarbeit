@@ -5,7 +5,6 @@ import de.uni_trier.restapi_vr.controller.ControlController;
 import de.uni_trier.restapi_vr.controller.SimulationController;
 import de.uni_trier.restapi_vr.controller.SystemController;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
-import io.swagger.v3.jaxrs2.integration.OpenApiServlet;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.integration.OpenApiConfigurationException;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
@@ -43,7 +42,7 @@ public class RESTApplication extends Application {
                         .openAPI(oas)
                         .prettyPrint(true)
                         .resourcePackages(
-                                Stream.of("io.swagger.resources", "org.example.controller")
+                                Stream.of("io.swagger.resources", "de.uni_trier.restapi_vr.controller")
                                         .collect(Collectors.toSet())
                         );
 

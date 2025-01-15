@@ -31,7 +31,7 @@ public class SimulationService {
     }
 
     public Condenser_DTO getCondenserStatus() {
-        return new Condenser_DTO("condenser", !nppSystemInterface.getCondenserStatus(), nppSystemInterface.getWaterLevelCondenser(), nppSystemInterface.getWaterLevelCondenser());
+        return new Condenser_DTO("condenser", !nppSystemInterface.getCondenserStatus(), nppSystemInterface.getWaterLevelCondenser(), nppSystemInterface.getPressureCondenser());
     }
 
     public Reactor_DTO getReactorStatus() {

@@ -2,6 +2,7 @@ package de.uni_trier.restapi_vr.controller;
 
 import de.uni_trier.restapi_vr.service.ControlService;
 import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.Reactor_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -110,8 +111,8 @@ public class ControlController {
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
-                controlService.setRodExposure(setRod);
-                response.resume(Response.ok().build());
+                Reactor_DTO reactor = controlService.setRodExposure(setRod);
+                response.resume(Response.ok(reactor).build());
             } catch (Exception e) {
                 response.resume(e);
             }

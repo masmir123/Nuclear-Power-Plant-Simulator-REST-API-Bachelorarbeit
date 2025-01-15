@@ -20,12 +20,7 @@ public class Reactor_DTO {
         this.overheated = overheated;
     }
 
-    /* public Reactor_DTO(float pressure, float waterLevel, boolean operational, boolean intact) {
-        this.pressure = pressure;
-        this.waterLevel = waterLevel;
-        this.operational = operational;
-        this.intact = intact;
-    } */
+    public int getRodposition() {return rodposition;}
 
     public float getPressure() {
         return pressure;

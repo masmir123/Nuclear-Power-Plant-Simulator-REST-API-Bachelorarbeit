@@ -2,6 +2,7 @@ package de.uni_trier.restapi_vr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
+import de.uni_trier.restapi_vr.config.RESTExceptionMapper;
 import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
@@ -42,6 +43,7 @@ public class ControlTest {
         POJOResourceFactory noDefaults = new POJOResourceFactory(ControlController.class);
         dispatcher.getRegistry().addResourceFactory(noDefaults);
         dispatcher.getProviderFactory().registerProvider(JacksonJsonProvider.class);
+        dispatcher.getProviderFactory().registerProvider(RESTExceptionMapper.class);
         nppSystemInterface = NPPSystemInterface.getInstance();
     }
 
