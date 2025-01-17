@@ -12,9 +12,17 @@ import de.uni_trier.restapi_vr.simulator.DTO.Components_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
 import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
 import de.uni_trier.restapi_vr.simulator.component.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 
 public class NPPSystemInterface implements Runnable {
+
+    //Logging
+    private static Logger logger = LoggerFactory.getLogger(NPPSystemInterface.class);
+    private static Marker reactorMarker = MarkerFactory.getMarker("REACTOR");
 
     private Instant startDate;
 
@@ -109,6 +117,7 @@ public class NPPSystemInterface implements Runnable {
 
     public void start() {
         if (nppSimulatorThread == null) {
+            logger.info(reactorMarker, "Starting NPPSystemInterfaceThread");
             nppSimulatorThread = new Thread(this);
             nppSimulatorThread.setName("NPPSystemInterfaceThread");
             nppSimulatorThread.start();
@@ -278,8 +287,6 @@ public class NPPSystemInterface implements Runnable {
 
                 for ( Component c : components ) c.update();
 
-                if ( log ) logSystemState(null);
-
                 if ( STATE == pumpDamage && !WP1.isBlown() ) {
                     long tt = System.currentTimeMillis();
                     long diff  = (tt - tempTime);
@@ -342,7 +349,8 @@ public class NPPSystemInterface implements Runnable {
     }
 
     public void stopp() {
-        logSystemState("Stopp");
+        //logSystemState("Stopp");
+        logger.debug(reactorMarker, "Stop Simulation");
         wait = true;
     }
 
@@ -642,6 +650,8 @@ public class NPPSystemInterface implements Runnable {
         return Boolean.valueOf(!CP.isBlown());
     }
 
+
+    //Reaktorgift.
     public Boolean getAtomicStatus() {
         if ( reactor.isOverheated() && (
                 reactor.isBlown()||condenser.isBlown()||turbine.isBlown()) ) return Boolean.valueOf(!true);
@@ -694,49 +704,24 @@ public class NPPSystemInterface implements Runnable {
 
 
 
-    private void logSystemState(String info){
-//		if ( logstream == null ) {
-//			try {
-//				String t = new Date(System.currentTimeMillis()).toString().replace(" ", "_").replace(":", "_");
-//				logstream = new BufferedWriter(new FileWriter(logpath.getFile().concat("\\" + LOG_FILE_NAME + "_" + test + "_" + t + LOG_FILE_SUFFIX).replace("%20", " ")));
-//				logstream.write("Time;CondWL;CondPres;ReacWL;ReacPressure;RodPos;Leistung;WP1RPM;WP2RPM;CPRPM;SV1;SV2;WV1;WV2;ReacBLOWN;ReacOverheated;CondBLOWN;WP1BLOWN;WP2BLOWN;CPRMBLOWN\n");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		if ( logcounter == 0) {
-//			int generatorPower = generator.getPower();
-//			int moderatorPosition = reactor.getModeratorPosition();
-//			String reactorWaterLevel = String.valueOf(reactor.getWaterLevel()).replace(".", ",");
-//			String reactorPressure = String.valueOf(reactor.getPressure()).replace(".", ",") ;
-//			String reactorBlown = convertBoolean(reactor.isBlown());
-//			String condenserWaterLevel = String.valueOf(condenser.getWaterLevel()).replace(".", ",");
-//			String condenserPressure =  String.valueOf(condenser.getPressure()).replace(".", ",");
-//			String condenserBlown = convertBoolean(condenser.isBlown());
-//
-//			String log =
-//				condenserWaterLevel+s+condenserPressure+s+
-//				reactorWaterLevel+s+reactorPressure+s+
-//				moderatorPosition+s+
-//				generatorPower+s+
-//				WP1.getRPM()+s+
-//				WP2.getRPM()+s+
-//				CP.getRPM()+s+
-//				convertBoolean(SV1.getStatus())+s+
-//				convertBoolean(SV2.getStatus())+s+
-//				convertBoolean(WV1.getStatus())+s+
-//				convertBoolean(WV2.getStatus())+s+
-//				reactorBlown+s+convertBoolean(reactor.isOverheated())+s+condenserBlown+s+convertBoolean(WP1.isBlown())+s+convertBoolean(WP2.isBlown())+s+convertBoolean(CP.isBlown());
-//
-//
-//			try {
-//				if ( info != null ) logstream.write(info + s + log + "\n");
-//				else logstream.write((System.currentTimeMillis()-startTime) + s + log + "\n");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		} else if ( logcounter == logtimer ) logcounter = 0;
-//		else logcounter++;
+    public void logSystemState(){
+        int generatorPower = generator.getPower();
+        int moderatorPosition = reactor.getModeratorPosition();
+        String reactorWaterLevel = String.valueOf(reactor.getWaterLevel()).replace(".", ",");
+        String reactorPressure = String.valueOf(reactor.getPressure()).replace(".", ",") ;
+        String reactorBlown = String.valueOf(reactor.isBlown());
+        String condenserWaterLevel = String.valueOf(condenser.getWaterLevel()).replace(".", ",");
+        String condenserPressure =  String.valueOf(condenser.getPressure()).replace(".", ",");
+        String condenserBlown = String.valueOf(condenser.isBlown());
+
+        logger.debug(reactorMarker,
+                "\nSYSTEM: WaterLvl: Con: {}, Rea: {}; Pres: Con: {}, Rea: {}; ModP: {}; GenPow: {}; RPM: WP1: {}, WP2: {}, CP: {}; Valves: SV1: {}, SV2: {}, WV1: {}, WV2: {}" +
+                "\nBLOWN: Rea: {}, Con: {}, Tur: {}, WP1: {}, WP2: {}, CP: {}, SV1: {}, SV2: {}, Gen: {}" +
+                "\nHEALTH: Pumps(Blowcounter): WP1: {}, WP2: {}, CP: {}; Reactor(Meltstage, Overheated): {}, {}",
+                condenserWaterLevel, reactorWaterLevel, condenserPressure, reactorPressure, moderatorPosition, generatorPower, WP1.getRPM(), WP2.getRPM(), CP.getRPM(), SV1.getStatus(), SV2.getStatus(), WV1.getStatus(), WV2.getStatus(),
+                reactorBlown, condenserBlown, turbine.isBlown(), WP1.isBlown(), WP2.isBlown(), CP.isBlown(), SV1.isBlown(), SV2.isBlown(), generator.isBlown(),
+                WP1.getBlowCounter(), WP2.getBlowCounter(), CP.getBlowCounter(), reactor.getMeltStage(), reactor.isOverheated()
+        );
     }
 
 }

@@ -69,4 +69,8 @@ public class Pump extends Component {
 	public int getMaxRPM() {
 		return maxRpm;
 	}
+
+	public int getBlowCounter() {
+		return blowcounter;
+	}
 }

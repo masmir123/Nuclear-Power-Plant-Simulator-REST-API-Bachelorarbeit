@@ -4,6 +4,7 @@ package de.uni_trier.restapi_vr;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import de.uni_trier.restapi_vr.config.RESTApplication;
+import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 import de.uni_trier.restapi_vr.ui.NPPUI;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -14,6 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -34,6 +38,11 @@ public class RESTServer
                 LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
                 loggerContext.getLogger("ROOT").setLevel(Level.DEBUG);
                 logger.debug("Debug mode enabled");
+                //Start new logging task with interval of 5 seconds
+                ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+                executor.scheduleAtFixedRate(() -> {
+                    NPPSystemInterface.getInstance().logSystemState();
+                }, 1000, 1000, TimeUnit.MILLISECONDS);
                 new NPPUI();
                 break;
             }
