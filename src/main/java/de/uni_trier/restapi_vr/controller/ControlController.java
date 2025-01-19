@@ -80,7 +80,7 @@ public class ControlController {
     @Produces(MediaType.APPLICATION_JSON)
     public void updatePumpStatus(
             @PathParam("id") String id,
-            @QueryParam("setRpm") int setRpm,
+            @QueryParam("setRpm") float setRpm,
             @Suspended final AsyncResponse response) {
 
         executorService = Executors.newSingleThreadExecutor();
@@ -107,7 +107,7 @@ public class ControlController {
     @PUT
     @Path("/rods")
     @Produces(MediaType.APPLICATION_JSON)
-    public void setRodExposure(@QueryParam("setRod") int setRod, @Suspended final AsyncResponse response) {
+    public void setRodExposure(@QueryParam("setRod") float setRod, @Suspended final AsyncResponse response) {
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {

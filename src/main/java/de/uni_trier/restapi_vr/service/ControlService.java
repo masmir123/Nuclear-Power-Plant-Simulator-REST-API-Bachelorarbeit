@@ -24,24 +24,24 @@ public class ControlService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid valve ID " + id));
     }
 
-    public Pump_DTO updatePumpStatus(String id, int setRpm) {
+    public Pump_DTO updatePumpStatus(String id, float setRpm) {
         if (setRpm < 0) {
             throw new IllegalArgumentException("Invalid RPM value. Must be greater than or equal to 0.");
         }
 
-        nppSystemInterface.updatePumpRpm(id, setRpm);
+        nppSystemInterface.updatePumpRpm(id, (int) setRpm);
 
         return Optional.ofNullable(nppSystemInterface.getPumps().get(id))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid pump ID " + id));
     }
 
-    public Reactor_DTO setRodExposure(int setRod) {
+    public Reactor_DTO setRodExposure(float setRod) {
         if (setRod < 0 || setRod > 100) {
             throw new IllegalArgumentException("Rod exposure must be between 0 and 100.");
         }
 
         try {
-            nppSystemInterface.setControlRodExposure(setRod);
+            nppSystemInterface.setControlRodExposure((int) setRod);
             return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getOverheatedStatus());
         } catch (Exception e) {
             throw new RuntimeException("Failed to set rod exposure: " + e.getMessage());
