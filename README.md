@@ -21,7 +21,7 @@ _Hinweis: Java 14 und Maven werden benötigt_
 1. Repository klonen:
     ```sh
     git clone https://github.com/RoManN0331/Softwareprojekt_Reaktor-REST-API.git
-    cd nuclear-power-plant-simulator
+    cd Softwareprojekt_Reaktor-REST-API
     ```
 
 2. Anschließend Application mit Maven erstellen:
@@ -34,7 +34,7 @@ _Hinweis: Java 14 und Maven werden benötigt_
     ```sh
     java -jar target/restapi-vr-1.0.jar
    
-   #Alternativ kann die bereitgestellte Jar-Datei verwendet werden:
+    #Alternativ kann die bereitgestellte Jar-Datei verwendet werden:
     java -jar restapi-vr-1.0-final.jar
     ```
 
@@ -58,7 +58,8 @@ Eine vollständige Dokumentation der API und der jeweiligen Endpunkte ist [hier]
  ┃ ┃ ┣ 📂 controller                 | REST Endpunkt Controller
  ┃ ┃ ┣ 📂 service                    | REST Service Klassen
  ┃ ┃ ┣ 📂 simulator                  | NPP-Simulation
- ┃ ┃ ┃ ┗ 📂DTO                       | Daten Model
+ ┃ ┃ ┃ ┣ 📂 DTO                      | REST Daten Model
+ ┃ ┃ ┃ ┗ 📂 component                | NPP-Simulation Komponenten
  ┃ ┃ ┣ 📂 ui                         
  ┃ ┃ ┗ 📄 RESTServer.java            | Main Klasse
  ┃ ┗ 📂 resources                    

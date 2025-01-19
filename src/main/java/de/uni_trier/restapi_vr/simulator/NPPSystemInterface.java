@@ -470,12 +470,12 @@ public class NPPSystemInterface implements Runnable {
     }
 
     private void shutdownSimulation() {
-        System.out.println("Shutting down the simulation...");
+        logger.info(reactorMarker, "Shutting down the simulation...");
         this.wait = true;
     }
 
     private void initializeSimulation() {
-        System.out.println("Initializing the simulation...");
+        logger.info(reactorMarker, "Initializing the simulation...");
         components.clear();
         wait = false;
         init();

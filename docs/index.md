@@ -44,22 +44,21 @@ entsprechenden Abschnitten einzusehen.
 
 Regelt die Interaktion mit dem Server und liefert Informationen über den Server.
 Unter `http://localhost:8080/api/system/` erreichbar.
-Siehe [System Endpoint](docs/ep-control.md) für weitere Informationen.
+Siehe [System Endpoint](ep-control.md) für weitere Informationen.
 
-#TODO: Enpunkt anpassen
 
-| Request-Type                                  | Endpunkt    | Verwendung                                                     |
-|-----------------------------------------------|-------------|----------------------------------------------------------------|
-| <code style="color : greenyellow">GET</code>  | /status     | Liefert Informationen über Server                              |
-| <code style="color : greenyellow">GET</code>  | /components | Liefert eine Liste aller Komponenten IDs der Reaktorsimulation |
-| <code style="color : yellow">POST</code>      | /restart    | Startet Reaktorsimulation neu                                  |
-| <code style="color : lightskyblue">PUT</code> | /TBD        | Außer kraft setzen der WP1 Pumpe                               |
+| Request-Type                                  | Endpunkt           | Verwendung                                                     |
+|-----------------------------------------------|--------------------|----------------------------------------------------------------|
+| <code style="color : greenyellow">GET</code>  | /status            | Liefert Informationen über Server                              |
+| <code style="color : greenyellow">GET</code>  | /components        | Liefert eine Liste aller Komponenten IDs der Reaktorsimulation |
+| <code style="color : yellow">POST</code>      | /restart           | Startet Reaktorsimulation neu                                  |
+| <code style="color : lightskyblue">PUT</code> | /emergencyShutdown | Leite Emergency Shutdown Szenario ein                          |
 
 ### Controller: control/
 
 Regelt die Steuerung der Reaktorsimulation.
 Alle Endpunkte sind unter `http://localhost:8080/api/control/` erreichbar.
-Siehe [Control Endpoint](docs/ep-system.md) für weitere Informationen.
+Siehe [Control Endpoint](ep-system.md) für weitere Informationen.
 
 | Request-Type                                    | Endpunkt      | Verwendung                  |
 |-------------------------------------------------|---------------|-----------------------------|
@@ -71,7 +70,7 @@ Siehe [Control Endpoint](docs/ep-system.md) für weitere Informationen.
 
 Regelt die Interaktion mit Simulationsvariablen.
 Alle Endpunkte sind unter `http://localhost:8080/api/simulation/` erreichbar.
-Siehe [Simulation Endpoint](docs/ep-simulation.md) für weitere Informationen.
+Siehe [Simulation Endpoint](ep-simulation.md) für weitere Informationen.
 
 | Request-Type                                 | Endpunkt      | Verwendung                                       |
 |----------------------------------------------|---------------|--------------------------------------------------|
