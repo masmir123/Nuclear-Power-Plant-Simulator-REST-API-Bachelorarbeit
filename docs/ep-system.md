@@ -69,3 +69,21 @@ Startet die Reaktorsimulation mit gegebenenfalls neuen Startparametern neu.
     ```json
         {}      
     ```
+
+
+
+### **4 PUT /emergencyShutdown**
+Bereite Simulation auf Notabschaltübungsszenario vor. Dieses Szenario setzt die Pumpe WP1 außer Kraft.
+
+#### Request
+- **HTTP Method**: <code style="color :  lightskyblue">PUT</code>
+- **Endpoint**: `/emergencyShutdown`
+
+#### Response
+- **Status Codes**:
+  - `200 OK`: Request was successful.
+  - `500 Internal Server Error`: Problem with Server.
+- **Schema**:
+    ```json
+        {}      
+    ```

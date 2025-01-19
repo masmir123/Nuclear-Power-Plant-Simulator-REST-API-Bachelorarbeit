@@ -11,7 +11,7 @@ Liefert informationen über bestehende Ventile des Reaktors. Ventile werden übe
 - **HTTP Method**: <code style="color : greenyellow">GET</code>
 - **Endpoint**: `/valve/{id}`
 - **Path Parameter**:
-    - `id`: ID des Ventils
+    - `id`: ID des Ventils (String)
 #### Response
 - **Status Codes**:
     - `200 OK`: Request was successful.
@@ -34,7 +34,7 @@ Liefert informationen über bestehende Pumpen des Reaktors. Pumpen werden über 
 - **HTTP Method**: <code style="color : greenyellow">GET</code>
 - **Endpoint**: `/pump/{id}`
 - **Path Parameter**:
-    - `id`: ID der Pumpe
+    - `id`: ID der Pumpe (String)
   
 #### Response
 - **Status Codes**:
@@ -51,6 +51,8 @@ Liefert informationen über bestehende Pumpen des Reaktors. Pumpen werden über 
         "maxRpm": 2000
      }    
     ```
+- ℹ️ rpm, setRpm, maxRpm in U/min
+
 
 
 ### **3. GET /generator**
@@ -73,6 +75,8 @@ Liefert informationen über den Generator des Reaktors. Power wird in MW angegeb
           "power": 700     
         }      
     ```
+- ℹ️ power in MW
+
 
 
 ### **4. GET /condenser**
@@ -93,52 +97,57 @@ Liefert informationen über den Kondensator des Reaktors.
           "name": "condenser",
           "blown": false,
           "waterLevel": 0,
-          "pressure":  10,     
+          "pressure":  100     
         }      
     ```
-
+- ℹ️ waterLevel in mm, 
+- ℹ️ pressure in bar
 
 ### **5. GET /reactor**
-Liefert die IDs der jeweiligen komponenten des Reaktors, welche über die API angesprochen werden können.
+Liefert den aktuellen Zustand des Reaktors und die Position der Kontrollstäbe.
 
 #### Request
 - **HTTP Method**: <code style="color : greenyellow">GET</code>
-- **Endpoint**: `/components`
+- **Endpoint**: `/reactor`
 
 #### Response
 - **Status Codes**:
-    - `200 OK`: Request was successful.
-    - `500 Internal Server Error`: Problem with Reactor or Server.
+  - `200 OK`: Request was successful.
+  - `500 Internal Server Error`: Problem with Reactor or Server.
+
 - **Schema**:
     ```json
         {
-          "components": [{
-            "name": "WV1",
-            "blown": false,
-            "interactable": true 
-          }]     
+          "pressure":  10,
+          "waterLevel": 0,
+          "operational": false,
+          "intact": true,
+          "rodPosition": 100
         }      
     ```
 
+- ℹ️ pressure in bar,
+- ℹ️ waterLevel in mm,
+- ℹ️ rodPosition in %
 
 ### **6. GET /health**
-Liefert die IDs der jeweiligen komponenten des Reaktors, welche über die API angesprochen werden können.
+Liefert Informationen zum Zustand der Komponenten des Reaktors.
 
 #### Request
 - **HTTP Method**: <code style="color : greenyellow">GET</code>
-- **Endpoint**: `/components`
+- **Endpoint**: `/health`
 
 #### Response
 - **Status Codes**:
-    - `200 OK`: Request was successful.
-    - `500 Internal Server Error`: Problem with Reactor or Server.
+  - `200 OK`: Request was successful.
+  - `500 Internal Server Error`: Problem with Reactor or Server.
+  
 - **Schema**:
     ```json
         {
-          "components": [{
-            "name": "WV1",
-            "blown": false,
-            "interactable": true 
+          [{
+            "name": "Component ID",
+            "broken": false 
           }]     
         }      
     ```

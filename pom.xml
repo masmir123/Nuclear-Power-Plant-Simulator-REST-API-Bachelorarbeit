@@ -1,27 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.example</groupId>
-    <artifactId>rest-test</artifactId>
+    <groupId>de.uni-trier</groupId>
+    <artifactId>restapi-vr</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>rest-test</name>
+    <version>1.0</version>
+    <name>npp-rest-api</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
         <dependency>
             <!--Jakarta REST API-->
+            <!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-web-api -->
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
         <!--Jetty Server-->
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>11.0.22</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -29,6 +32,7 @@
         </dependency>
 
         <!--Swagger UI-->
+        <!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-jaxrs2 -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-jaxrs2-jakarta</artifactId>
@@ -48,14 +52,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.16</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.5.6</version>
             <scope>compile</scope>
         </dependency>
-
         <!--Unit Testing-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -63,25 +65,18 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
-
-
         <!--Servlet Holder-->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-core</artifactId>
             <version>6.2.8.Final</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider -->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>2.17.2</version>
         </dependency>
-
-
-
-
     </dependencies>
 
 

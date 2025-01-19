@@ -1,6 +1,7 @@
 package de.uni_trier.restapi_vr.config;
 
 import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -13,6 +14,7 @@ public class RESTExceptionMapper implements ExceptionMapper<Exception> {
     private static final Map<Class<? extends Exception>, Response.Status> exceptionStatus = Map.of(
             IllegalArgumentException.class, Response.Status.BAD_REQUEST,
             BadRequestException.class, Response.Status.BAD_REQUEST,
+            NotFoundException.class, Response.Status.NOT_FOUND,
             RuntimeException.class, Response.Status.INTERNAL_SERVER_ERROR
     );
 

@@ -11,12 +11,12 @@ Steuere Ventile des Reaktors durch ein oder ausschalten. Ventile werden über de
 - **HTTP Method**:  <code style="color : lightskyblue">PUT</code>
 - **Endpoint**: `/valve/{id}`
 - **Path Parameter**:
-    - `id`: ID des Ventils
+    - `id`: ID des Ventils (String)
 - **Query Parameter**:
 
-    | Parameter  | Type      | Required | Description            |  
-    |------------|-----------|----------|------------------------|
-    | `activate` | `boolean` | Yes      | Set state of the valve |
+    | Parameter  | Typ       | Erforderlich | Beschreibung              |  
+    |------------|-----------|--------------|---------------------------|
+    | `activate` | `boolean` | Ja           | Setze Zustand des Ventils |
 
 #### Response
 - **Status Codes**:
@@ -32,18 +32,18 @@ Steuere Ventile des Reaktors durch ein oder ausschalten. Ventile werden über de
     ```
 
 ### **2. PUT /pump/{id}**
-Steuere Pumpen des Reaktors durch ein oder ausschalten. Pumpen werden über den Pfadparameter `id` identifiziert.
+Steuere Pumpen des Reaktors durch Ändern der Rotationsgeschwindigkeit. Pumpen werden über den Pfadparameter `id` identifiziert.
 
 #### Request
 - **HTTP Method**: <code style="color :  lightskyblue">PUT</code>
 - **Endpoint**: `/pump/{id}`
 - **Path Parameter**:
-    - `id`: ID der Pumpe
+    - `id`: ID der Pumpe (String)
 - **Query Parameter**:
 
-  | Parameter | Type  | Required | Description                    |  
-  |-----------|-------|----------|--------------------------------|
-  | `setRpm`  | `int` | Yes      | Set rotation speed of the pump |
+  | Parameter | Typ   | Erforderlich | Beschreibung        |  
+  |-----------|-------|--------------|---------------------|
+  | `setRpm`  | `int` | Ja           | Setze RPM der Pumpe |
 
 #### Response
 - **Status Codes**:
@@ -59,7 +59,7 @@ Steuere Pumpen des Reaktors durch ein oder ausschalten. Pumpen werden über den 
     ```
 
 
-### **3. POST /rods**
+### **3. PUT /rods**
 Steuere die Konzentration der Kontrollstäbe.
 
 #### Request
@@ -67,9 +67,9 @@ Steuere die Konzentration der Kontrollstäbe.
 - **Endpoint**: `/rods`
 - **Query Parameter**:
 
-  | Parameter | Type  | Required | Description                                      |  
-  |-----------|-------|----------|--------------------------------------------------|
-  | `setRod`  | `int` | Yes      | Set percentage of rod exposure. Values `[0,100]` |
+  | Parameter | Typ   | Erforderlich | Beschreibung                                                            |  
+  |-----------|-------|--------------|-------------------------------------------------------------------------|
+  | `setRod`  | `int` | Ja           | Prozentuale Zufuhr der Kontrollstäbe einstellen. Wertebereich `[0,100]` |
 - 
 #### Response
 - **Status Codes**:
@@ -78,5 +78,11 @@ Steuere die Konzentration der Kontrollstäbe.
     - `500 Internal Server Error`: Problem with Server.
 - **Schema**:
     ```json
-        {}      
+        {
+          "pressure":  10,
+          "waterLevel": 0,
+          "operational": false,
+          "intact": true,
+          "rodPosition": 100
+        }      
     ```
