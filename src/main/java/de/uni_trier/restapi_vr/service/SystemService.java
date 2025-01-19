@@ -42,4 +42,12 @@ public class SystemService {
         }
     }
 
+    public void setScenarioSimulation() {
+        try {
+            nppSystemInterface.setScenario();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set scenario simulation: " + e.getMessage());
+        }
+    }
+
 }

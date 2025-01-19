@@ -413,6 +413,10 @@ public class NPPSystemInterface implements Runnable {
         reactor.setModeratorPosition(exposurePercentage);
     }
 
+    public void setScenario() {
+        WP1.blow();
+    }
+
     // Function to add all Components for RESTService
     public List<Component_DTO> getComponents() {
         List<Component_DTO> components = new ArrayList<>();
