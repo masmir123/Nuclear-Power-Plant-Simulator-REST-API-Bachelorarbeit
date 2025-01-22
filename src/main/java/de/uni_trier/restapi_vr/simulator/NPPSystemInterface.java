@@ -413,6 +413,21 @@ public class NPPSystemInterface implements Runnable {
     }
 
     public void setEmergencyShutdownScenario() {
+        generator.setPower(200);
+        reactor.setModeratorPosition(80);
+        reactor.setWaterLevel(2100);
+
+        SV1.setStatus(false);
+        SV2.setStatus(false);
+
+        WP1.setRPM(1500);
+        WP2.setRPM(0);
+
+        condenser.setWaterLevel(4000);
+        WV1.setStatus(true);
+        WV2.setStatus(false);
+        CP.setRPM(1800);
+
         WP1.blow();
     }
 
