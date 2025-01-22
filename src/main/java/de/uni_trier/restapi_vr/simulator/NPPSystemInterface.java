@@ -7,10 +7,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import de.uni_trier.restapi_vr.simulator.DTO.Component_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Components_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.*;
 import de.uni_trier.restapi_vr.simulator.component.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +71,7 @@ public class NPPSystemInterface implements Runnable {
 
     public static final int RESTHEAT = 200;
     public static final double RESTHEAT_REDUCING_FACTOR = 0.0001;
+    InitialState initialState;
 
     private static final NPPSystemInterface INSTANCE = new NPPSystemInterface();
 
@@ -147,6 +145,7 @@ public class NPPSystemInterface implements Runnable {
         components.add(condenser);
         generator = new Generator(0);
         components.add(generator);
+        initialState = new InitialState(reactor, SV1, SV2, WV1, WV2, WP1, WP2, CP, turbine, condenser, generator);
     }
 
 
@@ -413,8 +412,36 @@ public class NPPSystemInterface implements Runnable {
         reactor.setModeratorPosition(exposurePercentage);
     }
 
-    public void setScenario() {
+    public void setEmergencyShutdownScenario() {
         WP1.blow();
+    }
+
+    public void setNormalShutdownScenario(){
+        // Ausgangsleistung auf 200 MW setzen und Wasserstand/-level initialisieren
+        generator.setPower(200);
+        reactor.setModeratorPosition(80);
+        reactor.setWaterLevel(2100);
+
+        SV1.setStatus(false);
+        SV2.setStatus(false);
+
+        WP1.setRPM(1500);
+        WP2.setRPM(0);
+
+        condenser.setWaterLevel(4000);
+        WV1.setStatus(true);
+        WV2.setStatus(false);
+        CP.setRPM(1800);
+    }
+
+    public void checkAndRestart() {
+        // Prüfen, ob sich der Zustand geändert hat
+        if (initialState.isStateChanged(reactor, SV1, SV2, WV1, WV2, WP1, WP2, CP, turbine, condenser, generator)) {
+            System.out.println("Zustand hat sich geändert. Restart wird ausgeführt.");
+            restartSimulation();
+        } else {
+            System.out.println("Keine Änderung festgestellt. Kein Restart erforderlich.");
+        }
     }
 
     // Function to add all Components for RESTService

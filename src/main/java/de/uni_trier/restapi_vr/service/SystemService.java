@@ -42,12 +42,27 @@ public class SystemService {
         }
     }
 
-    public void setScenarioSimulation() {
+    public void setEmergencyShutdownSimulation() {
         try {
-            nppSystemInterface.setScenario();
+            nppSystemInterface.setEmergencyShutdownScenario();
         } catch (Exception e) {
             throw new RuntimeException("Failed to set scenario simulation: " + e.getMessage());
         }
     }
 
+    public void setNormalShutdownSimulation() {
+        try {
+            nppSystemInterface.setNormalShutdownScenario();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set scenario simulation: " + e.getMessage());
+        }
+    }
+
+    public void setInitialStateSimulation() {
+        try {
+            nppSystemInterface.checkAndRestart();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set scenario simulation: " + e.getMessage());
+        }
+    }
 }
