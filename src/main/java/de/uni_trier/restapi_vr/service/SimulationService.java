@@ -35,7 +35,7 @@ public class SimulationService {
     }
 
     public Reactor_DTO getReactorStatus() {
-        return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getOverheatedStatus());
+        return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getRestheat(), nppSystemInterface.getOverheatedStatus());
     }
 
     public List<Components_DTO> getComponentsHealth() {

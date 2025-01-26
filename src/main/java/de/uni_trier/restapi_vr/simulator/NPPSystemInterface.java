@@ -696,14 +696,6 @@ public class NPPSystemInterface implements Runnable {
         return Boolean.valueOf(!CP.isBlown());
     }
 
-
-    //Reaktorgift.
-    public Boolean getAtomicStatus() {
-        if ( reactor.isOverheated() && (
-                reactor.isBlown()||condenser.isBlown()||turbine.isBlown()) ) return Boolean.valueOf(!true);
-        else return Boolean.valueOf(!false);
-    }
-
     public Integer getRodPosition() {
         return Integer.valueOf(reactor.getModeratorPosition());
     }
@@ -718,6 +710,13 @@ public class NPPSystemInterface implements Runnable {
 
     public Integer getCPRPMSet() {
         return CP.getSetRPMN();
+    }
+
+    // Reaktorgift
+    public Boolean getAtomicStatus() {
+        if ( reactor.isOverheated() && (
+                reactor.isBlown()||condenser.isBlown()||turbine.isBlown()) ) return Boolean.valueOf(!true);
+        else return Boolean.valueOf(!false);
     }
 
 
@@ -746,6 +745,10 @@ public class NPPSystemInterface implements Runnable {
 
     public boolean getOverheatedStatus() {
         return reactor.isOverheated();
+    }
+
+    public int getRestheat() {
+        return restheat;
     }
 
 

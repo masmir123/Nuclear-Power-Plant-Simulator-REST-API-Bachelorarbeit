@@ -8,15 +8,17 @@ public class Reactor_DTO {
     private boolean intact;
     private int rodposition;
     private boolean overheated;
+    private int restheat;
 
     public Reactor_DTO() {}
 
-    public Reactor_DTO(String reactor_name, boolean intact, float pressure, float waterLevel, int rodposition, boolean overheated) {
+    public Reactor_DTO(String reactor_name, boolean intact, float pressure, float waterLevel, int rodposition, int restheat, boolean overheated) {
         this.reactor_name = reactor_name;
+        this.intact = intact;
         this.pressure = pressure;
         this.waterLevel = waterLevel;
-        this.intact = intact;
         this.rodposition = rodposition;
+        this.restheat = restheat;
         this.overheated = overheated;
     }
 
@@ -36,5 +38,9 @@ public class Reactor_DTO {
 
     public boolean isIntact() {
         return intact;
+    }
+
+    public int getRestheat() {
+        return restheat;
     }
 }

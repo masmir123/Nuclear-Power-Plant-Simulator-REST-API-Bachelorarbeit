@@ -42,7 +42,7 @@ public class ControlService {
 
         try {
             nppSystemInterface.setControlRodExposure((int) setRod);
-            return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getOverheatedStatus());
+            return new Reactor_DTO("reactor", nppSystemInterface.getReactorStatus(), nppSystemInterface.getPressureReactor(), nppSystemInterface.getWaterLevelReactor(), nppSystemInterface.getRodPosition(), nppSystemInterface.getRestheat() ,nppSystemInterface.getOverheatedStatus());
         } catch (Exception e) {
             throw new RuntimeException("Failed to set rod exposure: " + e.getMessage());
         }
