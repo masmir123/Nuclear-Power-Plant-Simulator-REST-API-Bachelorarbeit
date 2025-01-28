@@ -14,6 +14,7 @@ import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.management.ManagementFactory;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,6 +48,8 @@ public class RESTServer
                 break;
             }
         }
+        //Get PID
+        logger.info("SERVER_PID: {}", ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
         startServer();
     }
 

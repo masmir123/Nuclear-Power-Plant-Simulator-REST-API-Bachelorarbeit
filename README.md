@@ -63,14 +63,14 @@ Eine vollständige Dokumentation der API und der jeweiligen Endpunkte ist [hier]
  ┃ ┃ ┣ 📂 ui                         
  ┃ ┃ ┗ 📄 RESTServer.java            | Main Klasse
  ┃ ┗ 📂 resources                    
- ┃ ┃ ┗ 📂 swagger-ui                 | Swagger UI statische Dateien
+ ┃   ┗ 📂 swagger-ui                 | Swagger UI statische Dateien
  ┗ 📂 test                           | Unit Tests
 ```
 
 <img src="docs/Reaktor-REST-API-Paketdiagramm-Final.svg" alt="Paketdiagramm">
 
 ## Dependencies und Materialien
-- NPP-Simulation, von #TODO: entwickelt und von [Univ.-Prof. Dr.-Ing. Benjamin Weyers](https://www.uni-trier.de/universitaet/fachbereiche-faecher/fachbereich-iv/faecher/informatikwissenschaften/professuren/human-computer-interaction/team/benjamin-weyers) zur Verfügung gestellt. 
+- NPP-Simulation: Von [Univ.-Prof. Dr.-Ing. Benjamin Weyers](https://www.uni-trier.de/universitaet/fachbereiche-faecher/fachbereich-iv/faecher/informatikwissenschaften/professuren/human-computer-interaction/team/benjamin-weyers) zur Verfügung gestellt. 
 - [Jakarta REST API](https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-web-api/10.0.0): v10.0.0
 - [Jetty Server](https://mvnrepository.com/artifact/org.eclipse.jetty): v11.0.22
 - [Swagger UI](https://swagger.io/tools/swagger-ui/): v3.52.0
