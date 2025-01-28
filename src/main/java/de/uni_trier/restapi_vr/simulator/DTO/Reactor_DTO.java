@@ -43,4 +43,8 @@ public class Reactor_DTO {
     public int getRestheat() {
         return restheat;
     }
+
+    public boolean getOverheated(){
+        return overheated;
+    }
 }

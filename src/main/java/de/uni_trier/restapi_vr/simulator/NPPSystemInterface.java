@@ -535,7 +535,7 @@ public class NPPSystemInterface implements Runnable {
         WP2 = WP2
         CP = CoolingPump
         AU = AtomicStatus
-         */
+        */
 
         components.add(new Components_DTO("WV1", WV1.isBlown()));
         components.add(new Components_DTO("WV2", WV2.isBlown()));
