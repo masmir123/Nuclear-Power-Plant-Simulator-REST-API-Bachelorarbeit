@@ -413,14 +413,14 @@ public class NPPSystemInterface implements Runnable {
     }
 
     public void setEmergencyShutdownScenario() {
-        generator.setPower(200);
+        generator.setPower(700);
         reactor.setModeratorPosition(80);
         reactor.setWaterLevel(2100);
 
         SV1.setStatus(false);
         SV2.setStatus(false);
 
-        WP1.setRPM(1500);
+        WP1.setRPM(0);
         WP2.setRPM(0);
 
         condenser.setWaterLevel(4000);
@@ -432,12 +432,12 @@ public class NPPSystemInterface implements Runnable {
     }
 
     public void setNormalShutdownScenario(){
-        // Ausgangsleistung auf 200 MW setzen und Wasserstand/-level initialisieren
-        generator.setPower(200);
+        // Ausgangsleistung auf 700 MW setzen und Wasserstand/-level initialisieren
+        generator.setPower(700);
         reactor.setModeratorPosition(80);
         reactor.setWaterLevel(2100);
 
-        SV1.setStatus(false);
+        SV1.setStatus(true);
         SV2.setStatus(false);
 
         WP1.setRPM(1500);
