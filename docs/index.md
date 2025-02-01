@@ -53,6 +53,9 @@ Siehe [System Endpoint](ep-control.md) für weitere Informationen.
 | <code style="color : greenyellow">GET</code>  | /components        | Liefert eine Liste aller Komponenten IDs der Reaktorsimulation |
 | <code style="color : yellow">POST</code>      | /restart           | Startet Reaktorsimulation neu                                  |
 | <code style="color : lightskyblue">PUT</code> | /emergencyShutdown | Leite Emergency Shutdown Szenario ein                          |
+| <code style="color : lightskyblue">PUT</code> | /initialState      | Setze Simulation auf initialen Zustand                         |
+| <code style="color : lightskyblue">PUT</code> | /normalShutdown    | Leite 'Herunterfahren' Szenario ein                            |
+
 
 ### Controller: control/
 

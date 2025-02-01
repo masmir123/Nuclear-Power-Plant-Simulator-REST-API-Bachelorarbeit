@@ -43,7 +43,7 @@ public class RESTServer
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 executor.scheduleAtFixedRate(() -> {
                     NPPSystemInterface.getInstance().logSystemState();
-                }, 1000, 1000, TimeUnit.MILLISECONDS);
+                }, 1000, 5000, TimeUnit.MILLISECONDS);
                 new NPPUI();
                 break;
             }

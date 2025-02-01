@@ -33,9 +33,6 @@ _Hinweis: Java 14 und Maven werden benötigt_
 1. Der REST Server kann durch Ausführen der JAR-Datei gestartet werden:
     ```sh
     java -jar target/restapi-vr-1.0.jar
-   
-    #Alternativ kann die bereitgestellte Jar-Datei verwendet werden:
-    java -jar restapi-vr-1.0-final.jar
     ```
 
 2. Der Server kann über die URL `http://localhost:8080` erreicht werden und bietet eine interaktive Dokumentation der verfügbaren Endpunkte:

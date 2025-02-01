@@ -452,10 +452,10 @@ public class NPPSystemInterface implements Runnable {
     public void checkAndRestart() {
         // Prüfen, ob sich der Zustand geändert hat
         if (initialState.isStateChanged(reactor, SV1, SV2, WV1, WV2, WP1, WP2, CP, turbine, condenser, generator)) {
-            System.out.println("Zustand hat sich geändert. Restart wird ausgeführt.");
+            logger.info("Zustand hat sich geändert. Restart wird ausgeführt.");
             restartSimulation();
         } else {
-            System.out.println("Keine Änderung festgestellt. Kein Restart erforderlich.");
+            logger.info("Keine Änderung festgestellt. Kein Restart erforderlich.");
         }
     }
 

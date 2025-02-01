@@ -25,7 +25,6 @@ Liefert informationen über Server und laufende Simulation.
 #### Example
 ```shell
 curl -X GET \
-     -H "Authorization: Basic <user:password>" \
      -H "Content-Type: application/json" \
      http://localhost:8080/api/system/status
 ```
@@ -67,9 +66,10 @@ Startet die Reaktorsimulation mit gegebenenfalls neuen Startparametern neu.
   - `500 Internal Server Error`: Problem with Server.
 - **Schema**:
     ```json
-        {}      
+        {
+          "message": "Simulation restarted"
+        }      
     ```
-
 
 
 ### **4 PUT /emergencyShutdown**
@@ -85,5 +85,47 @@ Bereite Simulation auf Notabschaltübungsszenario vor. Dieses Szenario setzt die
   - `500 Internal Server Error`: Problem with Server.
 - **Schema**:
     ```json
-        {}      
+        {
+          "message": "Emergency Shutdown initiated"
+        }      
+    ```
+
+
+
+### **5 PUT /initialState**
+Setze Simulation auf initialen Zustand zurück. Versuche dabei keinen RESET durchzuführen.
+
+#### Request
+- **HTTP Method**: <code style="color :  lightskyblue">PUT</code>
+- **Endpoint**: `/initialState`
+
+#### Response
+- **Status Codes**:
+  - `200 OK`: Request was successful.
+  - `500 Internal Server Error`: Problem with Server.
+- **Schema**:
+    ```json
+        {
+          "message": "Simulation set to initial state"
+        }      
+    ```
+
+
+
+### **6 PUT /normalShutdown**
+Bereite Simulation auf Runterfahren vor. Dieses Szenario setzt die Simulation auf einen laufenden Zustand.
+
+#### Request
+- **HTTP Method**: <code style="color :  lightskyblue">PUT</code>
+- **Endpoint**: `/normalShutdown`
+
+#### Response
+- **Status Codes**:
+  - `200 OK`: Request was successful.
+  - `500 Internal Server Error`: Problem with Server.
+- **Schema**:
+    ```json
+        {
+          "message": "Normal Shutdown initiated"
+        }      
     ```

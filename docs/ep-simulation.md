@@ -122,7 +122,9 @@ Liefert den aktuellen Zustand des Reaktors und die Position der Kontrollstäbe.
           "waterLevel": 0,
           "operational": false,
           "intact": true,
-          "rodPosition": 100
+          "rodPosition": 100,
+          "overheated": false,
+          "restheat": 0
         }      
     ```
 
