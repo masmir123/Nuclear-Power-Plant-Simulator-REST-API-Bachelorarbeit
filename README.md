@@ -24,7 +24,7 @@ _Hinweis: Java 14 und Maven werden benötigt_
     cd Softwareprojekt_Reaktor-REST-API
     ```
 
-2. Anschließend Application mit Maven erstellen:
+2. Anschließend Projekt mit Maven bauen:
     ```sh
     mvn clean install
     ```
@@ -43,7 +43,7 @@ _Hinweis: Java 14 und Maven werden benötigt_
 | api/simulation/* | Überwachung der simulations Variablen |
 | api/system/*     | Diverse Serverfunktionen              |
 
-Eine vollständige Dokumentation der API und der jeweiligen Endpunkte ist [hier](docs/index.md) verfügbar. 
+**Eine vollständige Dokumentation der API und der jeweiligen Endpunkte ist [hier](docs/index.md) verfügbar.** 
 
 ## Projektstruktur
 

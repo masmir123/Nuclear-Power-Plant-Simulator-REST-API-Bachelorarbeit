@@ -44,7 +44,7 @@ entsprechenden Abschnitten einzusehen.
 
 Regelt die Interaktion mit dem Server und liefert Informationen über den Server.
 Unter `http://localhost:8080/api/system/` erreichbar.
-Siehe [System Endpoint](ep-control.md) für weitere Informationen.
+Siehe [System Endpoint](ep-system.md) für weitere Informationen.
 
 
 | Request-Type                                  | Endpunkt           | Verwendung                                                     |
@@ -61,7 +61,7 @@ Siehe [System Endpoint](ep-control.md) für weitere Informationen.
 
 Regelt die Steuerung der Reaktorsimulation.
 Alle Endpunkte sind unter `http://localhost:8080/api/control/` erreichbar.
-Siehe [Control Endpoint](ep-system.md) für weitere Informationen.
+Siehe [Control Endpoint](ep-control.md) für weitere Informationen.
 
 | Request-Type                                    | Endpunkt      | Verwendung                  |
 |-------------------------------------------------|---------------|-----------------------------|
