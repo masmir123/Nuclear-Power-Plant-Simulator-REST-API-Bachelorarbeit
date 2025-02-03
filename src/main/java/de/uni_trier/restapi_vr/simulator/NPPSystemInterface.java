@@ -447,7 +447,7 @@ public class NPPSystemInterface implements Runnable {
         condenser.setWaterLevel(4000);
         WV1.setStatus(true);
         WV2.setStatus(false);
-        CP.setRPM(1800);
+        CP.setRPM(1600);
     }
 
     public void checkAndRestart() {
