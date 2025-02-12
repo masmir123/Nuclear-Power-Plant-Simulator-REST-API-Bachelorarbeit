@@ -412,42 +412,47 @@ public class NPPSystemInterface implements Runnable {
         reactor.setModeratorPosition(exposurePercentage);
     }
 
-    public void setEmergencyShutdownScenario() {
-        generator.setPower(700);
-        reactor.setModeratorPosition(80);
-        reactor.setWaterLevel(2100);
+    public void setEmergencyShutdownScenario() throws InterruptedException {
+        this.wait = true;
+        restheat = 0;
+        reactor.setModeratorPosition(89);
+        reactor.setWaterLevel(2350);
 
-        SV1.setStatus(false);
+        SV1.setStatus(true);
         SV2.setStatus(false);
 
-        WP1.setRPM(0);
+        WP1.setRPM(1450);
         WP2.setRPM(0);
 
         condenser.setWaterLevel(4000);
+        condenser.setPressure(0);
         WV1.setStatus(true);
         WV2.setStatus(false);
-        CP.setRPM(1800);
+        CP.setRPM(1000);
+        this.wait = false;
 
         WP1.blow();
     }
 
     public void setNormalShutdownScenario(){
         // Ausgangsleistung auf 700 MW setzen und Wasserstand/-level initialisieren
-        generator.setPower(700);
-        reactor.setModeratorPosition(81);
-        // Wasserstand auf 2700 setzen, da er schnell wieder runterfällt und dann die optimale Menge erreicht
-        reactor.setWaterLevel(2700);
+        this.wait = true;
+        restheat = 0;
+        reactor.setModeratorPosition(84);
+        reactor.setWaterLevel(2350);
 
         SV1.setStatus(true);
         SV2.setStatus(false);
 
-        WP1.setRPM(1580);
+        WP1.setRPM(1450);
         WP2.setRPM(0);
 
         condenser.setWaterLevel(4000);
+        condenser.setPressure(0);
         WV1.setStatus(true);
         WV2.setStatus(false);
-        CP.setRPM(1600);
+        CP.setRPM(1000);
+        this.wait = false;
     }
 
     public void checkAndRestart() {
@@ -522,6 +527,7 @@ public class NPPSystemInterface implements Runnable {
         components.clear();
         wait = false;
         init();
+        restheat = 0;
     }
 
     public List<Components_DTO> getComponentsHealth() {
