@@ -1,9 +1,7 @@
 package de.uni_trier.restapi_vr.controller;
 
 import de.uni_trier.restapi_vr.service.ControlService;
-import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Reactor_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.*;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -118,5 +116,56 @@ public class ControlController {
             }
         });
         executorService.shutdown();
-    }   
+    }
+
+    @Operation(
+            summary = "Timeout settings for simulation",
+            description = "Sets the timeout for the simulation in milliseconds."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Timeout set successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request. Timeout must be a positive integer"),
+            @ApiResponse(responseCode = "500", description = "Problem with Server")
+    })
+    @PUT
+    @Path("/timeout")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void setTimeout(@QueryParam("setTimeout") int setTimeout, @Suspended final AsyncResponse response) {
+        executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(() -> {
+            try {
+                Timeout_DTO timeout = controlService.setTimeout(setTimeout);
+                response.resume(Response.ok(timeout).build());
+            } catch (Exception e) {
+                response.resume(e);
+            }
+        });
+        executorService.shutdown();
+    }
+
+    @Operation(
+            summary = "Slowdown factor for simulation",
+            description = "Sets the slowdown factor for the simulation."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Slowdown factor set successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request. Slowdown factor must be a positive integer"),
+            @ApiResponse(responseCode = "500", description = "Problem with Server")
+    })
+    @PUT
+    @Path("/slowdownFactor")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void setSlowdownFactor(@QueryParam("setSlowdownFactor") int setSlowdownFactor, @Suspended final AsyncResponse response) {
+        executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(() -> {
+            try {
+                SlowdownFactor_DTO SlowdownFactor = controlService.setSlowdownFactor(setSlowdownFactor);
+                response.resume(Response.ok(SlowdownFactor).build());
+            } catch (Exception e) {
+                response.resume(e);
+            }
+        });
+        executorService.shutdown();
+    }
+
 }

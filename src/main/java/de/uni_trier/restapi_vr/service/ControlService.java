@@ -1,8 +1,6 @@
 package de.uni_trier.restapi_vr.service;
 
-import de.uni_trier.restapi_vr.simulator.DTO.Pump_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Reactor_DTO;
-import de.uni_trier.restapi_vr.simulator.DTO.Valve_DTO;
+import de.uni_trier.restapi_vr.simulator.DTO.*;
 import de.uni_trier.restapi_vr.simulator.NPPSystemInterface;
 
 import java.util.Optional;
@@ -47,4 +45,31 @@ public class ControlService {
             throw new RuntimeException("Failed to set rod exposure: " + e.getMessage());
         }
     }
+
+    public Timeout_DTO setTimeout(float timeout) {
+        if (timeout < 0) {
+            throw new IllegalArgumentException("Timeout must be a non-negative value.");
+        }
+
+        try {
+            nppSystemInterface.setTimeout((int) timeout);
+            return new Timeout_DTO(nppSystemInterface.getTimeout());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set timeout: " + e.getMessage());
+        }
+    }
+
+    public SlowdownFactor_DTO setSlowdownFactor(float SlowdownFactor) {
+        if (SlowdownFactor < 0) {
+            throw new IllegalArgumentException("SlowdownFactor must be a non-negative value.");
+        }
+
+        try {
+            nppSystemInterface.setSlowdownFactor((int) SlowdownFactor);
+            return new SlowdownFactor_DTO(nppSystemInterface.getSlowdownFactor());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set slowdown factor: " + e.getMessage());
+        }
+    }
+
 }

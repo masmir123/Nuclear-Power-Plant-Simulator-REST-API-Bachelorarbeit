@@ -16,6 +16,7 @@ public class Pump extends Component {
 	private int blowcounter;
 	private int upperRpmThreshold;
 	private int maxRpm;
+	private int slowdownfactor = 2;
 	
 	private final int BLOW_COUNTER_INIT = 200;
 	
@@ -43,8 +44,8 @@ public class Pump extends Component {
 			else if ( blowcounter < BLOW_COUNTER_INIT ) blowcounter++;
 			if ( blowcounter < 0 ) blow();
 			if ( rpm != setRPM )
-				if ( rpm > setRPM ) rpm = setRPM + ((rpm - setRPM)/2);
-				else rpm = setRPM - ((setRPM - rpm)/2);
+				if ( rpm > setRPM ) rpm = setRPM + ((rpm - setRPM)/ slowdownfactor);
+				else rpm = setRPM - ((setRPM - rpm)/ slowdownfactor);
 		}
 	}
 	
@@ -72,5 +73,13 @@ public class Pump extends Component {
 
 	public int getBlowCounter() {
 		return blowcounter;
+	}
+
+	public int getSlowdownfactor() {
+		return slowdownfactor;
+	}
+
+	public int setSlowdownfactor(int factor) {
+		return slowdownfactor = factor;
 	}
 }

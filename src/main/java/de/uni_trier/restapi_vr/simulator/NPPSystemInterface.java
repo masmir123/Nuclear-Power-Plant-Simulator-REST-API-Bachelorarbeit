@@ -55,6 +55,9 @@ public class NPPSystemInterface implements Runnable {
     private int saTest = 2;
     private int normalState = 3;
 
+    private int timeout = 200;
+    private int slowdownFactor = 2;
+
     private int STATE = normalState;
     private boolean wait = false;
 
@@ -157,6 +160,12 @@ public class NPPSystemInterface implements Runnable {
 
             for (int i = 0; i < n; i++) {
                 if (!reactor.isOverheated()) {
+
+                    // Adjust slowdown factors if changed
+                    if(WP1.getSlowdownfactor() != slowdownFactor) WP1.setSlowdownfactor(slowdownFactor);
+                    if(WP2.getSlowdownfactor() != slowdownFactor) WP2.setSlowdownfactor(slowdownFactor);
+                    if(CP.getSlowdownfactor() != slowdownFactor) CP.setSlowdownfactor(slowdownFactor);
+
                     // Compute the flow through valve_1...
                     if (SV1.getStatus())
                         v1 = (reactor.getPressure() - condenser.getPressure()) / 10;
@@ -330,7 +339,7 @@ public class NPPSystemInterface implements Runnable {
                 }
 
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(timeout);
                 } catch (InterruptedException e) {}
 
             }
@@ -617,6 +626,15 @@ public class NPPSystemInterface implements Runnable {
         this.WV2.setStatus(st);
     }
 
+    public void setTimeout(int miliseconds) {
+        this.timeout = miliseconds;
+    }
+
+    public void setSlowdownFactor(int factor) {
+        this.slowdownFactor = factor;
+    }
+
+
     /// GETTER
 
     public Boolean getWP1Status() {
@@ -758,6 +776,9 @@ public class NPPSystemInterface implements Runnable {
         return restheat;
     }
 
+    public int getTimeout() { return timeout; }
+
+    public int getSlowdownFactor() { return slowdownFactor; }
 
 
     public void logSystemState(){
@@ -779,5 +800,4 @@ public class NPPSystemInterface implements Runnable {
                 WP1.getBlowCounter(), WP2.getBlowCounter(), CP.getBlowCounter(), reactor.getMeltStage(), reactor.isOverheated()
         );
     }
-
 }
