@@ -46,26 +46,26 @@ public class ControlService {
         }
     }
 
-    public Timeout_DTO setTimeout(float timeout) {
+    public Timeout_DTO setTimeout(int timeout) {
         if (timeout < 0) {
             throw new IllegalArgumentException("Timeout must be a non-negative value.");
         }
 
         try {
-            nppSystemInterface.setTimeout((int) timeout);
+            nppSystemInterface.setTimeout(timeout);
             return new Timeout_DTO(nppSystemInterface.getTimeout());
         } catch (Exception e) {
             throw new RuntimeException("Failed to set timeout: " + e.getMessage());
         }
     }
 
-    public SlowdownFactor_DTO setSlowdownFactor(float SlowdownFactor) {
+    public SlowdownFactor_DTO setSlowdownFactor(int SlowdownFactor) {
         if (SlowdownFactor < 0) {
             throw new IllegalArgumentException("SlowdownFactor must be a non-negative value.");
         }
 
         try {
-            nppSystemInterface.setSlowdownFactor((int) SlowdownFactor);
+            nppSystemInterface.setSlowdownFactor(SlowdownFactor);
             return new SlowdownFactor_DTO(nppSystemInterface.getSlowdownFactor());
         } catch (Exception e) {
             throw new RuntimeException("Failed to set slowdown factor: " + e.getMessage());
